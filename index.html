@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+
+  <title>Medical IT Solutions - Dashboard</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style>
+    /* Custom styles for professional look and feel */
+    .hover-scale:hover {
+      transform: scale(1.02);
+    }
+
+    .smooth-shadow {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .active-page {
+      background-color: #f0f3f4;
+    }
+
+    .page-content {
+      display: block;
+    }
+
+    /* Ensure full height and width for HTML and body */
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      /* Prevent horizontal scroll */
+    }
+
+    /* General button styling */
+    .btn-primary {
+      @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+    }
+
+    .btn-secondary {
+      @apply bg-gray-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+    }
+
+    .btn-success {
+      @apply bg-green-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+    }
+
+    .btn-info {
+      @apply bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+    }
+
+    .btn-danger {
+      @apply bg-red-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+    }
+
+    .btn-purple {
+      @apply bg-purple-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
+    style='font-family: Inter, "Noto Sans", sans-serif;'>
+    <div class="layout-container flex h-full grow flex-col">
+      <div class="gap-1 px-6 flex flex-1 justify-center py-5">
+        <div class="layout-content-container flex flex-col w-80">
+          <div class="flex h-full min-h-[700px] flex-col justify-between bg-white p-4">
+            <div class="flex flex-col gap-4">
+              <h1 class="text-[#111518] text-base font-medium leading-normal">Medical IT Solutions</h1>
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-3 px-3 py-2 active-page rounded-lg cursor-pointer"
+                  onclick="showPage('dashboard')">
+                  <div class="text-[#111518]" data-icon="House" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                      viewBox="0 0 256 256">
+                      <path
+                        d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z">
+                      </path>
+                    </svg>
+                  </div>
+                  <p class="text-[#111518] text-sm font-medium leading-normal">Dashboard</p>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 cursor-pointer" onclick="showPage('patients')">
+                  <div class="text-[#111518]" data-icon="Users" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                      viewBox="0 0 256 256">
+                      <path
+                        d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z">
+                      </path>
+                    </svg>
+                  </div>
+                  <p class="text-[#111518] text-sm font-medium leading-normal">Patients</p>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 cursor-pointer" onclick="showPage('appointments')">
+                  <div class="text-[#111518]" data-icon="Calendar" data-size="24px" data-weight="fill">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                      viewBox="0 0 256 256">
+                      <path
+                        d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM112,184a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm56-8a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136a23.76,23.76,0,0,1-4.84,14.45L152,176ZM48,80V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80Z">
+                      </path>
+                    </svg>
+                  </div>
+                  <p class="text-[#111518] text-sm font-medium leading-normal">Appointments</p>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 cursor-pointer" onclick="showPage('booking')">
+                  <div class="text-[#111518]" data-icon="CalendarPlus" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                      viewBox="0 0 256 256">
+                      <path
+                        d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a8,8,0,0,1-8,8H116v16a8,8,0,0,1-16,0V140H84a8,8,0,0,1,0-16h16V108a8,8,0,0,1,16,0v16h16A8,8,0,0,1,140,132Z">
+                      </path>
+                    </svg>
+                  </div>
+                  <p class="text-[#111518] text-sm font-medium leading-normal">Book Appointment</p>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 cursor-pointer" onclick="showPage('billing')">
+                  <div class="text-[#111518]" data-icon="CurrencyDollar" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                      viewBox="0 0 256 256">
+                      <path
+                        d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z">
+                      </path>
+                    </svg>
+                  </div>
+                  <p class="text-[#111518] text-sm font-medium leading-normal">Billing</p>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-2 cursor-pointer" onclick="showPage('settings')">
+                  <div class="text-[#111518]" data-icon="Gear" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                      viewBox="0 0 256 256">
+                      <path
+                        d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z">
+                      </path>
+                    </svg>
+                  </div>
+                  <p class="text-[#111518] text-sm font-medium leading-normal">Settings</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col gap-4">
+              <button
+                class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 btn-primary"
+                onclick="showPage('booking')">
+                <span class="truncate">New Appointment</span>
+              </button>
+              <div class="flex flex-col gap-1">
+                <div class="flex items-center gap-3 px-3 py-2 cursor-pointer" onclick="showPage('help-docs')">
+                  <div class="text-[#111518]" data-icon="Question" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor"
+                      viewBox="0 0 256 256">
+                      <path
+                        d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z">
+                      </path>
+                    </svg>
+                  </div>
+                  <p class="text-[#111518] text-sm font-medium leading-normal">Help and docs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="main-content" class="layout-content-container flex flex-col max-w-[960px] flex-1">
+          <!-- Content will be loaded here by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Helper function to get a random date within a range (moved to global scope)
+    function getRandomDate(start, end) {
+      return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    }
+
+    // script.js (combined for single immersive)
+    class MedicalAppNavigation {
+      constructor() {
+        this.currentPage = 'dashboard';
+        this.mockData = this.generateMockData();
+        this.pages = {
+          dashboard: {
+            title: 'Dashboard',
+            content: this.getDashboardContent()
+          },
+          appointments: {
+            title: 'Appointments',
+            content: this.getAppointmentsContent()
+          },
+          booking: {
+            title: 'Book Appointment',
+            content: this.getBookingContent()
+          },
+          patients: {
+            title: 'Patients',
+            content: this.getPatientsContent()
+          },
+          billing: {
+            title: 'Billing',
+            content: this.getBillingContent()
+          },
+          settings: {
+            title: 'Settings',
+            content: this.getSettingsContent()
+          },
+          'help-docs': { // Added help-docs page
+            title: 'Help and Docs',
+            content: this.getHelpAndDocsContent()
+          }
+        };
+        this.currentAppointmentView = 'daily'; // Default view for appointments
+        this.currentPatientSearch = '';
+        this.currentPatientStatusFilter = 'All Patients';
+        this.currentPatientInsuranceFilter = 'All Insurance';
+        this.init();
+      }
+
+      generateMockData = () => { // Converted to arrow function
+        const patientsData = Array.from({length: 200}, (_, i) => {
+          const firstNames = ['John', 'Jane', 'Michael', 'Sarah', 'David', 'Emily', 'Robert', 'Lisa', 'James', 'Mary', 'Chris', 'Anna', 'Paul', 'Laura', 'Kevin', 'Olivia'];
+          const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson'];
+          const statuses = ['Active', 'Inactive', 'New Patient'];
+          const insurances = ['Blue Cross', 'Aetna', 'United Healthcare', 'Cigna', 'Kaiser', 'Medicare', 'Medicaid'];
+
+          const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+          const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+          const status = statuses[Math.floor(Math.random() * statuses.length)];
+          const insurance = insurances[Math.floor(Math.random() * insurances.length)];
+          const lastVisitDate = getRandomDate(new Date(2023, 0, 1), new Date()); // Use global getRandomDate
+          const nextAppointmentDate = status === 'Active' && Math.random() > 0.3 ? getRandomDate(new Date(), new Date(2025, 0, 1)).toISOString().split('T')[0] : null; // Use global getRandomDate
+
+          return {
+            id: i + 1,
+            name: `${firstName} ${lastName}`,
+            email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}${i}@example.com`,
+            phone: `(555) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
+            lastVisit: lastVisitDate.toISOString().split('T')[0],
+            nextAppointment: nextAppointmentDate,
+            status: status,
+            insurance: insurance,
+            balance: `$${(Math.random() * 500).toFixed(2)}`
+          };
+        });
+
+        // Now use the generated patientsData for appointments and billing
+        const appointmentsData = Array.from({length: 500}, (_, i) => {
+          const randomPatient = patientsData[Math.floor(Math.random() * patientsData.length)]; // Pick a random patient from generated list
+          const doctors = ['Dr. Dana Scully', 'Dr. Emily Johnson', 'Dr. Michael Brown', 'Dr. Sarah Wilson', 'Dr. Robert Davis'];
+          const types = ['General Consultation', 'Follow-up', 'Specialist Referral', 'Emergency', 'Annual Checkup', 'Vaccination', 'Physical Therapy'];
+          const statuses = ['Scheduled', 'Completed', 'Cancelled', 'No-Show', 'Rescheduled'];
+          const durations = ['15 min', '30 min', '45 min', '60 min'];
+
+          const appointmentDate = getRandomDate(new Date(2025, 0, 1), new Date(2025, 11, 31)); // Use global getRandomDate
+          const status = statuses[Math.floor(Math.random() * statuses.length)];
+
+          return {
+            id: i + 1,
+            patient: randomPatient.name, // Use the name of the random patient
+            doctor: doctors[Math.floor(Math.random() * doctors.length)],
+            date: appointmentDate.toISOString().split('T')[0],
+            time: `${Math.floor(Math.random() * 10) + 8}:00 ${Math.random() > 0.5 ? 'AM' : 'PM'}`,
+            type: types[Math.floor(Math.random() * types.length)],
+            status: status,
+            duration: durations[Math.floor(Math.random() * durations.length)]
+          };
+        });
+
+        const billingData = Array.from({length: 300}, (_, i) => {
+          const randomPatient = patientsData[Math.floor(Math.random() * patientsData.length)]; // Pick a random patient from generated list
+          const services = ['General Consultation', 'Follow-up Visit', 'Lab Work', 'Specialist Consultation', 'Preventive Care', 'Surgery', 'Medication Refill'];
+          const statuses = ['Pending', 'Paid', 'Processing', 'Overdue', 'Refunded'];
+          const insurances = ['Blue Cross', 'Aetna', 'United Healthcare', 'Cigna', 'Kaiser', 'Medicare', 'Medicaid'];
+
+          const billDate = getRandomDate(new Date(2023, 6, 1), new Date()); // Last year to now - Use global getRandomDate
+          const amount = (Math.random() * 1000 + 50).toFixed(2);
+          const copay = (Math.random() * 50).toFixed(2);
+
+          return {
+            id: i + 1,
+            patient: randomPatient.name, // Use the name of the random patient
+            service: services[Math.floor(Math.random() * services.length)],
+            date: billDate.toISOString().split('T')[0],
+            amount: `$${amount}`,
+            status: statuses[Math.floor(Math.random() * statuses.length)],
+            insurance: insurances[Math.floor(Math.random() * insurances.length)],
+            copay: `$${copay}`
+          };
+        });
+
+        return {
+          patients: patientsData,
+          appointments: appointmentsData,
+          billing: billingData,
+          analytics: {
+            totalAppointments: 2500 + Math.floor(Math.random() * 500),
+            monthlyGrowth: (10 + Math.random() * 5).toFixed(1),
+            noShowRate: (3 + Math.random() * 3).toFixed(1),
+            avgWaitTime: Math.floor(Math.random() * 10) + 10,
+            patientSatisfaction: (90 + Math.random() * 8).toFixed(1),
+            revenue: 250000 + Math.floor(Math.random() * 100000),
+            newPatients: 200 + Math.floor(Math.random() * 100),
+            returnPatients: 1500 + Math.floor(Math.random() * 500)
+          },
+          users: Array.from({length: 15}, (_, i) => {
+            const roles = ['Admin', 'Doctor', 'Nurse', 'Receptionist', 'Billing Specialist', 'IT Support'];
+            const userFirstNames = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank', 'Grace', 'Heidi'];
+            const userLastNames = ['White', 'Black', 'Green', 'Brown', 'Gray', 'Blue', 'Red', 'Yellow'];
+            const status = Math.random() > 0.1 ? 'Active' : 'Inactive';
+
+            const firstName = userFirstNames[Math.floor(Math.random() * userFirstNames.length)];
+            const lastName = userLastNames[Math.floor(Math.random() * userLastNames.length)];
+
+            return {
+              id: i + 1,
+              name: `${firstName} ${lastName}`,
+              email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}${i}@medicalit.com`,
+              role: roles[Math.floor(Math.random() * roles.length)],
+              status: status
+            };
+          }),
+          integrations: [
+            {id: 1, name: "Electronic Health Records (EHR) - Epic", status: "Connected", description: "Sync patient data with your Epic EHR system for seamless record keeping."},
+            {id: 2, name: "Telehealth Platform - Doxy.me", status: "Connected", description: "Integrate with Doxy.me for secure and easy virtual consultations."},
+            {id: 3, name: "Lab Results Portal - LabCorp", status: "Connected", description: "Receive lab results directly from LabCorp into patient charts."},
+            {id: 4, name: "Payment Gateway - Stripe", status: "Connected", description: "Process patient payments securely via Stripe."},
+            {id: 5, name: "Pharmacy Integration - Surescripts", status: "Disconnected", description: "Connect with Surescripts for electronic prescription management."},
+            {id: 6, name: "Medical Imaging - PACS", status: "Connected", description: "Integrate with PACS for viewing and managing medical images."},
+            {id: 7, name: "Appointment Reminders - Twilio", status: "Connected", description: "Automate SMS and voice appointment reminders using Twilio."},
+            {id: 8, name: "Patient Portal - MyChart", status: "Connected", description: "Provide patients access to their health information and appointments through MyChart."},
+            {id: 9, name: "Billing Software - QuickBooks", status: "Disconnected", description: "Sync billing data with QuickBooks for accounting purposes."},
+            {id: 10, name: "CRM - Salesforce Health Cloud", status: "Disconnected", description: "Manage patient relationships and marketing with Salesforce Health Cloud."}
+          ]
+        };
+      }
+
+      init = () => { // Converted to arrow function
+        this.showPage('dashboard');
+      }
+
+      showPage = (pageId, clickEvent = null) => { // Converted to arrow function
+        // Update navigation active state
+        const navItems = document.querySelectorAll('.flex.items-center.gap-3.px-3.py-2');
+        navItems.forEach(nav => {
+          nav.classList.remove('active-page', 'rounded-lg');
+        });
+
+        // Handle active navigation styling
+        if (clickEvent && clickEvent.target) {
+          let activeNav = clickEvent.target;
+          while (activeNav && !activeNav.classList.contains('cursor-pointer')) {
+            activeNav = activeNav.parentElement;
+          }
+          if (activeNav) {
+            activeNav.classList.add('active-page', 'rounded-lg');
+          }
+        } else {
+          navItems.forEach(nav => {
+            const onclickAttr = nav.getAttribute('onclick');
+            if (onclickAttr && onclickAttr.includes(pageId)) {
+              nav.classList.add('active-page', 'rounded-lg');
+            }
+          });
+        }
+
+        // Update main content
+        const mainContent = document.getElementById('main-content');
+        if (mainContent && this.pages[pageId]) {
+          mainContent.innerHTML = this.pages[pageId].content;
+          this.currentPage = pageId;
+
+          if (pageId === 'booking') {
+            this.initBookingPage();
+          }
+          // Initialize settings tab if on settings page
+          if (pageId === 'settings') {
+            this.currentSettingsTab = 'practice'; // Default to practice info
+            // Directly call renderSettingsTab without going through showPage again
+            this.renderSettingsTab(this.currentSettingsTab);
+          }
+          // Initialize appointments view if on appointments page
+          if (pageId === 'appointments') {
+            // Directly call renderAppointmentsView without going through showPage again
+            this.renderAppointmentsView(this.currentAppointmentView);
+          }
+          // Initialize patient filters if on patients page
+          if (pageId === 'patients') {
+            // Directly call filterPatients without going through showPage again
+            this.filterPatients();
+          }
+        }
+      }
+
+      getDashboardContent = () => { // Converted to arrow function
+        const analytics = this.mockData.analytics;
+        return `
+                  <div id="dashboard-page" class="page-content">
+                    <div class="flex flex-wrap justify-between gap-3 p-4">
+                      <div class="flex min-w-72 flex-col gap-3">
+                        <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Medical Practice Dashboard</p>
+                        <p class="text-[#637988] text-sm font-normal leading-normal">Comprehensive analytics and insights for your medical practice management.</p>
+                      </div>
+                      <div class="flex gap-2">
+                        <button class="btn-info" onclick="exportReport()">Export</button>
+                        <button class="btn-success" onclick="refreshAnalytics()">Refresh</button>
+                      </div>
+                    </div>
+
+                    <!-- Key Metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+                      <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                          <p class="text-blue-700 text-base font-semibold leading-normal">Total Appointments</p>
+                          <div class="bg-blue-500 p-2 rounded-lg">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 8h12v8H4V8z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <p class="text-[#111518] tracking-light text-2xl font-bold leading-tight">${analytics.totalAppointments.toLocaleString()}</p>
+                        <p class="text-green-600 text-base font-medium leading-normal">+${analytics.monthlyGrowth}% this month</p>
+                      </div>
+
+                      <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-gradient-to-br from-green-50 to-green-100 border border-green-200 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                          <p class="text-green-700 text-base font-semibold leading-normal">Patient Satisfaction</p>
+                          <div class="bg-green-500 p-2 rounded-lg">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <p class="text-[#111518] tracking-light text-2xl font-bold leading-tight">${analytics.patientSatisfaction}%</p>
+                        <p class="text-green-600 text-base font-medium leading-normal">Excellent rating</p>
+                      </div>
+
+                      <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                          <p class="text-yellow-700 text-base font-semibold leading-normal">Average Wait Time</p>
+                          <div class="bg-yellow-500 p-2 rounded-lg">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <p class="text-[#111518] tracking-light text-2xl font-bold leading-tight">${analytics.avgWaitTime} minutes</p>
+                        <p class="text-green-600 text-base font-medium leading-normal">-2 min from last month</p>
+                      </div>
+
+                      <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center justify-between mb-3">
+                          <p class="text-purple-700 text-base font-semibold leading-normal">Monthly Revenue</p>
+                          <div class="bg-purple-500 p-2 rounded-lg">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                              <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm-3-8a1 1 0 011-1v-2a1 1 0 112 0v2h1a1 1 0 110 2h-1v2a1 1 0 11-2 0v-2a1 1 0 01-1-1z"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <p class="text-[#111518] tracking-light text-2xl font-bold leading-tight">$${analytics.revenue.toLocaleString()}</p>
+                        <p class="text-green-600 text-base font-medium leading-normal">+15% growth</p>
+                      </div>
+                    </div>
+
+                    <!-- Charts and Advanced Analytics -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-4">
+                      <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-800">Appointment Trends</h3>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">+21.5% growth</span>
+                        </div>
+                        <div class="h-48 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg p-4">
+                          <div class="h-full flex flex-col justify-end">
+                            <!-- Simulated chart bars - Adjusted for smaller size -->
+                            <div class="flex items-end justify-around h-32 mb-4">
+                              <div class="flex flex-col items-center">
+                                <div class="bg-blue-500 rounded-t-lg mb-1" style="width: 16px; height: 80px;"></div>
+                                <span class="text-xs text-gray-600">Jan</span>
+                              </div>
+                              <div class="flex flex-col items-center">
+                                <div class="bg-blue-500 rounded-t-lg mb-1" style="width: 16px; height: 95px;"></div>
+                                <span class="text-xs text-gray-600">Feb</span>
+                              </div>
+                              <div class="flex flex-col items-center">
+                                <div class="bg-blue-500 rounded-t-lg mb-1" style="width: 16px; height: 70px;"></div>
+                                <span class="text-xs text-gray-600">Mar</span>
+                              </div>
+                              <div class="flex flex-col items-center">
+                                <div class="bg-gradient-to-t from-blue-500 to-purple-500 rounded-t-lg mb-1" style="width: 16px; height: 110px;"></div>
+                                <span class="text-xs text-gray-600 font-semibold">Apr</span>
+                              </div>
+                              <div class="flex flex-col items-center">
+                                <div class="bg-blue-500 rounded-t-lg mb-1" style="width: 16px; height: 100px;"></div>
+                                <span class="text-xs text-gray-600">May</span>
+                              </div>
+                              <div class="flex flex-col items-center">
+                                <div class="bg-blue-500 rounded-t-lg mb-1" style="width: 16px; height: 85px;"></div>
+                                <span class="text-xs text-gray-600">Jun</span>
+                              </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-sm">
+                              <div class="bg-white bg-opacity-70 rounded-lg p-2">
+                                <div class="flex items-center">
+                                  <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                                  <span class="text-gray-600">Total: ${analytics.totalAppointments.toLocaleString()}</span>
+                                </div>
+                              </div>
+                              <div class="bg-white bg-opacity-70 rounded-lg p-2">
+                                <div class="flex items-center">
+                                  <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                                  <span class="text-gray-600">Completed: ${Math.floor(analytics.totalAppointments * 0.92).toLocaleString()}</span>
+                                </div>
+                              </div>
+                              <div class="bg-white bg-opacity-70 rounded-lg p-2">
+                                <div class="flex items-center">
+                                  <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                                  <span class="text-gray-600">Peak: 2-4 PM</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-800">Patient Distribution</h3>
+                        <div class="space-y-4">
+                          <div class="flex items-center justify-between">
+                            <span class="text-gray-600">New Patients</span>
+                            <div class="flex items-center">
+                              <div class="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: ${(analytics.newPatients / analytics.totalAppointments * 100).toFixed(0)}%"></div>
+                              </div>
+                              <span class="font-semibold">${analytics.newPatients}</span>
+                            </div>
+                          </div>
+                          <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Return Patients</span>
+                            <div class="flex items-center">
+                              <div class="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: ${(analytics.returnPatients / analytics.totalAppointments * 100).toFixed(0)}%"></div>
+                              </div>
+                              <span class="font-semibold">${analytics.returnPatients}</span>
+                            </div>
+                          </div>
+                          <div class="flex items-center justify-between">
+                            <span class="text-gray-600">No-Show Rate</span>
+                            <div class="flex items-center">
+                              <div class="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: ${analytics.noShowRate}%"></div>
+                              </div>
+                              <span class="font-semibold">${analytics.noShowRate}%</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="p-4">
+                      <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h3>
+                        <div class="space-y-3">
+                          ${this.mockData.appointments.slice(0, 3).map(apt => `
+                            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                              <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4">
+                                <span class="text-white font-semibold">${apt.patient.split(' ').map(n => n[0]).join('')}</span>
+                              </div>
+                              <div class="flex-1">
+                                <p class="font-semibold text-gray-800">${apt.patient}</p>
+                                <p class="text-sm text-gray-600">${apt.type} with ${apt.doctor}</p>
+                              </div>
+                              <div class="text-right">
+                                <p class="font-semibold text-gray-800">${apt.date}</p>
+                                <p class="text-sm text-gray-600">${apt.time}</p>
+                              </div>
+                            </div>
+                          `).join('')}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              `;
+      }
+
+      getAppointmentsContent = () => { // Converted to arrow function
+        return `
+                  <div class="flex flex-wrap justify-between gap-3 p-4">
+                    <div class="flex min-w-72 flex-col gap-3">
+                      <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Appointment Management</p>
+                      <p class="text-[#637988] text-sm font-normal leading-normal">Manage your daily and weekly schedules, view patient details, and optimize buffer times.</p>
+                    </div>
+                    <div class="flex gap-3">
+                      <button class="btn-info" onclick="showPage('booking')">New Appointment</button>
+                      <button class="btn-secondary" onclick="exportSchedule()">Export Schedule</button>
+                    </div>
+                  </div>
+
+                  <div class="pb-3">
+                    <div class="flex border-b border-[#dce1e5] px-4 gap-8" id="appointment-views-tabs">
+                      <a class="flex flex-col items-center justify-center border-b-[3px] ${this.currentAppointmentView === 'daily' ? 'border-b-[#111518] text-[#111518]' : 'border-b-transparent text-[#637988]'} pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchView('daily')">
+                        <p class="text-sm font-bold leading-normal tracking-[0.015em]">Daily View</p>
+                      </a>
+                      <a class="flex flex-col items-center justify-center border-b-[3px] ${this.currentAppointmentView === 'weekly' ? 'border-b-[#111518] text-[#111518]' : 'border-b-transparent text-[#637988]'} pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchView('weekly')">
+                        <p class="text-sm font-bold leading-normal tracking-[0.015em]">Weekly View</p>
+                      </a>
+                      <a class="flex flex-col items-center justify-center border-b-[3px] ${this.currentAppointmentView === 'calendar' ? 'border-b-[#111518] text-[#111518]' : 'border-b-transparent text-[#637988]'} pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchView('calendar')">
+                        <p class="text-sm font-bold leading-normal tracking-[0.015em]">Calendar View</p>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="p-4" id="appointments-dynamic-content">
+                    <!-- Content for selected appointment view will be loaded here by renderAppointmentsView -->
+                  </div>
+              `;
+      }
+
+      // New method to render specific appointment view content
+      renderAppointmentsView = (viewType) => { // Converted to arrow function
+        const appointmentsDynamicContent = document.getElementById('appointments-dynamic-content');
+        if (!appointmentsDynamicContent) return; // Exit if element not found
+
+        const today = new Date();
+        const todayFormatted = today.toISOString().split('T')[0];
+
+        // Ensure there's always some data for today if the mock data doesn't provide it
+        let dailyAppointments = this.mockData.appointments.filter(apt => apt.date === todayFormatted);
+        if (dailyAppointments.length === 0) {
+          // Add some default mock appointments for today if none exist
+          const doctors = ['Dr. Dana Scully', 'Dr. Emily Johnson'];
+          const types = ['General Consultation', 'Follow-up'];
+          const timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM'];
+          const patients = this.mockData.patients;
+
+          for (let i = 0; i < 3; i++) {
+            const randomPatient = patients[Math.floor(Math.random() * patients.length)];
+            dailyAppointments.push({
+              id: `mock-${i}`,
+              patient: randomPatient.name,
+              doctor: doctors[Math.floor(Math.random() * doctors.length)],
+              date: todayFormatted,
+              time: timeSlots[i],
+              type: types[Math.floor(Math.random() * types.length)],
+              status: 'Scheduled',
+              duration: '30 min'
+            });
+          }
+        }
+
+
+        let contentHtml = '';
+        if (viewType === 'daily') {
+          contentHtml = `
+                  <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                      <h3 class="text-lg font-semibold text-gray-800">Today's Schedule - ${today.toLocaleDateString('en-US', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}</h3>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                      ${dailyAppointments.length > 0 ? dailyAppointments.map(apt => {
+            const patientNameParts = apt.patient ? apt.patient.split(' ').map(n => n[0]).join('') : ''; // Handle undefined patient name
+            return `
+                        <div class="p-6 hover:bg-gray-50 transition-colors duration-200">
+                          <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                              <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-semibold text-sm">${patientNameParts}</span>
+                              </div>
+                              <div>
+                                <h4 class="text-lg font-semibold text-gray-800">${apt.patient || 'Unknown Patient'}</h4>
+                                <p class="text-sm text-gray-600">${apt.type} • ${apt.duration}</p>
+                                <p class="text-sm text-blue-600 font-medium">${apt.doctor}</p>
+                              </div>
+                            </div>
+                            <div class="text-right">
+                              <p class="text-lg font-semibold text-gray-800">${apt.time}</p>
+                              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${apt.status === 'Scheduled' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">
+                                ${apt.status}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="mt-4 flex space-x-3">
+                            <button class="btn-info px-3 py-1 text-sm" onclick="editAppointment(${apt.id})">Edit</button>
+                            <button class="btn-success px-3 py-1 text-sm" onclick="checkIn(${apt.id})">Check In</button>
+                            <button class="btn-danger px-3 py-1 text-sm" onclick="cancelAppointment(${apt.id})">Cancel</button>
+                          </div>
+                        </div>
+                      `;
+          }).join('') : '<p class="p-6 text-gray-600 text-center">No appointments scheduled for today.</p>'}
+                    </div>
+                  </div>
+                `;
+        } else if (viewType === 'weekly') {
+          const startOfWeek = new Date();
+          startOfWeek.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)); // Monday of current week
+          const endOfWeek = new Date(startOfWeek);
+          endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+          const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          let weeklyContent = '';
+
+          for (let i = 0; i < 7; i++) {
+            const currentDay = new Date(startOfWeek);
+            currentDay.setDate(startOfWeek.getDate() + i);
+            const currentDayFormatted = currentDay.toISOString().split('T')[0];
+            let appointmentsForDay = this.mockData.appointments.filter(apt => apt.date === currentDayFormatted);
+
+            // Add mock data if no appointments exist for the day
+            if (appointmentsForDay.length === 0) {
+              const numMockAppointments = Math.floor(Math.random() * 4) + 1; // 1 to 4 mock appointments
+              const doctors = ['Dr. Dana Scully', 'Dr. Emily Johnson', 'Dr. Michael Brown'];
+              const types = ['General Consultation', 'Follow-up', 'Vaccination'];
+              const timeSlots = ['09:00 AM', '10:30 AM', '01:00 PM', '03:00 PM'];
+              const patients = this.mockData.patients;
+
+              for (let j = 0; j < numMockAppointments; j++) {
+                const randomPatient = patients[Math.floor(Math.random() * patients.length)];
+                appointmentsForDay.push({
+                  id: `mock-weekly-${currentDayFormatted}-${j}`,
+                  patient: randomPatient.name,
+                  doctor: doctors[Math.floor(Math.random() * doctors.length)],
+                  date: currentDayFormatted,
+                  time: timeSlots[Math.floor(Math.random() * timeSlots.length)],
+                  type: types[Math.floor(Math.random() * types.length)],
+                  status: 'Scheduled',
+                  duration: '30 min'
+                });
+              }
+            }
+
+            weeklyContent += `
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">${daysOfWeek[currentDay.getDay()]}, ${currentDay.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}</h4>
+                            ${appointmentsForDay.length > 0 ? appointmentsForDay.map(apt => `
+                                <div class="flex items-center justify-between text-sm text-gray-700 py-1">
+                                    <span>${apt.time} - ${apt.patient || 'Unknown'} (${apt.type})</span>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${apt.status === 'Scheduled' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}">
+                                        ${apt.status}
+                                    </span>
+                                </div>
+                            `).join('') : '<p class="text-sm text-gray-600">No appointments</p>'}
+                        </div>
+                    `;
+          }
+
+          contentHtml = `
+                  <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Weekly Schedule Overview (${startOfWeek.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} - ${endOfWeek.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})})</h3>
+                    <div class="mt-4">
+                      ${weeklyContent}
+                    </div>
+                  </div>
+                `;
+        } else if (viewType === 'calendar') {
+          const year = today.getFullYear();
+          const month = today.getMonth();
+          const firstDayOfMonth = new Date(year, month, 1);
+          const lastDayOfMonth = new Date(year, month + 1, 0);
+          const daysInMonth = lastDayOfMonth.getDate();
+          const startingDay = firstDayOfMonth.getDay(); // 0 for Sunday, 1 for Monday etc.
+
+          let calendarDaysHtml = '';
+          // Fill leading empty days
+          for (let i = 0; i < startingDay; i++) {
+            calendarDaysHtml += `<div class="p-2 border border-gray-200 text-gray-400"></div>`;
+          }
+
+          for (let day = 1; day <= daysInMonth; day++) {
+            const currentCalendarDate = new Date(year, month, day).toISOString().split('T')[0];
+            const appointmentsForDay = this.mockData.appointments.filter(apt => apt.date === currentCalendarDate);
+            const hasAppointments = appointmentsForDay.length > 0;
+            const dayBgClass = hasAppointments ? 'bg-blue-50 border-blue-200' : 'bg-white';
+            const dayTextColor = hasAppointments ? 'text-blue-700 font-semibold' : 'text-gray-800';
+
+            calendarDaysHtml += `
+                        <div class="p-2 border border-gray-200 rounded-lg ${dayBgClass} text-center">
+                            <span class="text-sm ${dayTextColor}">${day}</span>
+                            ${hasAppointments ? `<div class="text-xs text-blue-500 mt-1">${appointmentsForDay.length} apts</div>` : ''}
+                        </div>
+                    `;
+          }
+
+          contentHtml = `
+                  <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Calendar View - ${today.toLocaleDateString('en-US', {year: 'numeric', month: 'long'})}</h3>
+                    <div class="grid grid-cols-7 gap-2 text-center text-sm font-medium text-gray-600 mb-2">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-2">
+                        ${calendarDaysHtml}
+                    </div>
+                  </div>
+                `;
+        }
+        appointmentsDynamicContent.innerHTML = contentHtml;
+
+        // Update active tab styling for appointment views
+        const appointmentViewsTabs = document.getElementById('appointment-views-tabs');
+        if (appointmentViewsTabs) {
+          Array.from(appointmentViewsTabs.children).forEach(tab => {
+            tab.classList.remove('border-b-[#111518]', 'text-[#111518]');
+            tab.classList.add('border-b-transparent', 'text-[#637988]');
+          });
+          const activeTab = appointmentViewsTabs.querySelector(`[onclick*="switchView('${viewType}')"]`);
+          if (activeTab) {
+            activeTab.classList.remove('border-b-transparent', 'text-[#637988]');
+            activeTab.classList.add('border-b-[#111518]', 'text-[#111518]');
+          }
+        }
+      }
+
+      // Updated method to switch appointment views - now calls renderAppointmentsView
+      switchView = (viewType) => { // Converted to arrow function
+        this.currentAppointmentView = viewType;
+        this.renderAppointmentsView(viewType);
+      }
+
+      getPatientsContent = () => { // Converted to arrow function
+        return `
+                  <div class="flex flex-wrap justify-between gap-3 p-4">
+                    <div class="flex min-w-72 flex-col gap-3">
+                      <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Patient Management</p>
+                      <p class="text-[#637988] text-sm font-normal leading-normal">Comprehensive patient database with medical records, appointment history, and contact information.</p>
+                    </div>
+                    <div class="flex gap-3">
+                      <button class="btn-success" onclick="addNewPatient()">Add New Patient</button>
+                      <button class="btn-info" onclick="importPatients()">Import Patients</button>
+                      <button class="btn-secondary" onclick="exportPatients()">Export Data</button>
+                    </div>
+                  </div>
+
+                  <div class="p-4">
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm mb-6">
+                      <div class="p-4 border-b border-gray-200">
+                        <div class="flex flex-wrap gap-4 items-center">
+                          <input type="text" id="patientSearchInput" placeholder="Search patients..." class="flex-1 min-w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" oninput="window.navigation.filterPatients()" value="${this.currentPatientSearch ?? ''}">
+                          <select id="patientStatusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" onchange="window.navigation.filterPatients()">
+                            <option value="All Patients" ${this.currentPatientStatusFilter === 'All Patients' ? 'selected' : ''}>All Patients</option>
+                            <option value="Active" ${this.currentPatientStatusFilter === 'Active' ? 'selected' : ''}>Active</option>
+                            <option value="Inactive" ${this.currentPatientStatusFilter === 'Inactive' ? 'selected' : ''}>Inactive</option>
+                            <option value="New Patient" ${this.currentPatientStatusFilter === 'New Patient' ? 'selected' : ''}>New Patients</option>
+                          </select>
+                          <select id="patientInsuranceFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" onchange="window.navigation.filterPatients()">
+                            <option value="All Insurance" ${this.currentPatientInsuranceFilter === 'All Insurance' ? 'selected' : ''}>All Insurance</option>
+                            <option value="Blue Cross" ${this.currentPatientInsuranceFilter === 'Blue Cross' ? 'selected' : ''}>Blue Cross</option>
+                            <option value="Aetna" ${this.currentPatientInsuranceFilter === 'Aetna' ? 'selected' : ''}>Aetna</option>
+                            <option value="United Healthcare" ${this.currentPatientInsuranceFilter === 'United Healthcare' ? 'selected' : ''}>United Healthcare</option>
+                            <option value="Cigna" ${this.currentPatientInsuranceFilter === 'Cigna' ? 'selected' : ''}>Cigna</option>
+                            <option value="Kaiser" ${this.currentPatientInsuranceFilter === 'Kaiser' ? 'selected' : ''}>Kaiser</option>
+                            <option value="Medicare" ${this.currentPatientInsuranceFilter === 'Medicare' ? 'selected' : ''}>Medicare</option>
+                            <option value="Medicaid" ${this.currentPatientInsuranceFilter === 'Medicaid' ? 'selected' : ''}>Medicaid</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                      <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                          <thead class="bg-gray-50">
+                            <tr>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Visit</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Next Appointment</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Insurance</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody class="bg-white divide-y divide-gray-200" id="patients-table-body">
+                            <!-- Patient rows will be rendered here by renderPatientsTable -->
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+              `;
+      }
+
+      // New method to filter patient data and render table
+      renderPatientsTable = () => { // Converted to arrow function
+        const patientsTableBody = document.getElementById('patients-table-body');
+        if (!patientsTableBody) return;
+
+        let patients = this.mockData.patients;
+
+        // Apply search filter
+        if (this.currentPatientSearch) {
+          const searchTerm = this.currentPatientSearch.toLowerCase();
+          patients = patients.filter(patient =>
+            patient.name.toLowerCase().includes(searchTerm) ||
+            patient.email.toLowerCase().includes(searchTerm) ||
+            patient.phone.includes(searchTerm) ||
+            patient.id.toString().includes(searchTerm)
+          );
+        }
+
+        // Apply status filter
+        if (this.currentPatientStatusFilter !== 'All Patients') {
+          patients = patients.filter(patient => patient.status === this.currentPatientStatusFilter);
+        }
+
+        // Apply insurance filter
+        if (this.currentPatientInsuranceFilter !== 'All Insurance') {
+          patients = patients.filter(patient => patient.insurance === this.currentPatientInsuranceFilter);
+        }
+
+        patientsTableBody.innerHTML = patients.length > 0 ? patients.map(patient => `
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4">
+                        <span class="text-white font-semibold text-sm">${patient.name.split(' ').map(n => n[0]).join('')}</span>
+                      </div>
+                      <div>
+                        <div class="text-sm font-medium text-gray-900">${patient.name}</div>
+                        <div class="text-sm text-gray-500">ID: ${patient.id.toString().padStart(4, '0')}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">${patient.email}</div>
+                    <div class="text-sm text-gray-500">${patient.phone}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${patient.lastVisit}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${patient.nextAppointment || 'None scheduled'}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${patient.insurance}</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-sm font-medium ${patient.balance === '$0.00' ? 'text-green-600' : 'text-red-600'}">${patient.balance}</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${patient.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                      ${patient.status}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                    <button class="text-blue-600 hover:text-blue-900" onclick="viewPatient(${patient.id})">View</button>
+                    <button class="text-green-600 hover:text-green-900" onclick="editPatient(${patient.id})">Edit</button>
+                    <button class="text-purple-600 hover:text-purple-900" onclick="scheduleAppointment(${patient.id})">Schedule</button>
+                  </td>
+                </tr>
+              `).join('') : '<tr class="text-center"><td colspan="8" class="py-4 text-gray-600">No patients found matching your criteria.</td></tr>';
+
+        // Re-set the filter values after re-rendering to maintain state
+        const searchInput = document.getElementById('patientSearchInput');
+        const statusFilter = document.getElementById('patientStatusFilter');
+        const insuranceFilter = document.getElementById('patientInsuranceFilter');
+        if (searchInput) searchInput.value = this.currentPatientSearch;
+        if (statusFilter) statusFilter.value = this.currentPatientStatusFilter;
+        if (insuranceFilter) insuranceFilter.value = this.currentPatientInsuranceFilter;
+      }
+
+      // Updated method to update filters and trigger table re-render
+      filterPatients = () => { // Converted to arrow function
+        const searchInput = document.getElementById('patientSearchInput');
+        const statusFilter = document.getElementById('patientStatusFilter');
+        const insuranceFilter = document.getElementById('patientInsuranceFilter');
+
+        if (searchInput) this.currentPatientSearch = searchInput.value;
+        if (statusFilter) this.currentPatientStatusFilter = statusFilter.value;
+        if (insuranceFilter) this.currentPatientInsuranceFilter = insuranceFilter.value;
+
+        this.renderPatientsTable();
+      }
+
+      getBillingContent = () => { // Converted to arrow function
+        return `
+                  <div class="flex flex-wrap justify-between gap-3 p-4">
+                    <div class="flex min-w-72 flex-col gap-3">
+                      <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Billing & Payment Management</p>
+                      <p class="text-[#637988] text-sm font-normal leading-normal">Comprehensive billing system for invoices, payments, insurance claims, and financial reporting.</p>
+                    </div>
+                    <div class="flex gap-3">
+                      <button class="btn-success" onclick="createInvoice()">Create Invoice</button>
+                      <button class="btn-info" onclick="processPayment()">Process Payment</button>
+                      <button class="btn-purple" onclick="generateReport()">Generate Report</button>
+                    </div>
+                  </div>
+
+                  <!-- Financial Overview -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+                    <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border border-green-200 hover:shadow-lg transition-all duration-300">
+                      <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-green-700 font-semibold">Total Revenue</h3>
+                        <div class="bg-green-500 p-2 rounded-lg">
+                          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm-3-8a1 1 0 011-1v-2a1 1 0 112 0v2h1a1 1 0 110 2h-1v2a1 1 0 11-2 0v-2a1 1 0 01-1-1z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <p class="text-3xl font-bold text-gray-800">$185,420</p>
+                      <p class="text-green-600 font-medium text-sm mt-2">+15% this month</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 hover:shadow-lg transition-all duration-300">
+                      <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-blue-700 font-semibold">Outstanding</h3>
+                        <div class="bg-blue-500 p-2 rounded-lg">
+                          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <p class="text-3xl font-bold text-gray-800">$12,350</p>
+                      <p class="text-yellow-600 font-medium text-sm mt-2">8 pending invoices</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 rounded-xl border border-yellow-200 hover:shadow-lg transition-all duration-300">
+                      <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-yellow-700 font-semibold">Insurance Claims</h3>
+                        <div class="bg-yellow-500 p-2 rounded-lg">
+                          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <p class="text-3xl font-bold text-gray-800">$45,680</p>
+                      <p class="text-blue-600 font-medium text-sm mt-2">15 claims processing</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border border-red-200 hover:shadow-lg transition-all duration-300">
+                      <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-red-700 font-semibold">Overdue</h3>
+                        <div class="bg-red-500 p-2 rounded-lg">
+                          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <p class="text-3xl font-bold text-gray-800">$3,200</p>
+                      <p class="text-red-600 font-medium text-sm mt-2">2 overdue accounts</p>
+                    </div>
+                  </div>
+
+                  <!-- Billing Table -->
+                  <div class="p-4">
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm mb-6">
+                      <div class="p-4 border-b border-gray-200">
+                        <div class="flex flex-wrap gap-4 items-center">
+                          <input type="text" placeholder="Search invoices..." class="flex-1 min-w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                          <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option>All Status</option>
+                            <option>Paid</option>
+                            <option>Pending</option>
+                            <option>Overdue</option>
+                            <option>Processing</option>
+                          </select>
+                          <input type="date" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                      <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                          <thead class="bg-gray-50">
+                            <tr>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice ID</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Insurance</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody class="bg-white divide-y divide-gray-200">
+                            ${this.mockData.billing.map(bill => `
+                              <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">INV-${bill.id.toString().padStart(4, '0')}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
+                                      <span class="text-white font-semibold text-xs">${bill.patient.split(' ').map(n => n[0]).join('')}</span>
+                                    </div>
+                                    <div class="text-sm font-medium text-gray-900">${bill.patient}</div>
+                                  </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${bill.service}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${bill.date}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${bill.amount}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <div class="text-sm text-gray-900">${bill.insurance}</div>
+                                  <div class="text-sm text-gray-500">Copay: ${bill.copay}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${bill.status === 'Paid' ? 'bg-green-100 text-green-800' :
+            bill.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+              bill.status === 'Processing' ? 'bg-blue-100 text-blue-800' :
+                'bg-red-100 text-red-800'
+          }">
+                                    ${bill.status}
+                                  </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                  <button class="text-blue-600 hover:text-blue-900" onclick="viewInvoice(${bill.id})">View</button>
+                                  <button class="text-green-600 hover:text-green-900" onclick="sendInvoice(${bill.id})">Send</button>
+                                  <button class="text-purple-600 hover:text-purple-900" onclick="recordPayment(${bill.id})">Pay</button>
+                                </td>
+                              </tr>
+                            `).join('')}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+              `;
+      }
+
+      getSettingsContent = () => { // Converted to arrow function
+        return `
+                  <div class="flex flex-wrap justify-between gap-3 p-4">
+                    <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight min-w-72">Practice Settings</p>
+                    <div class="flex gap-3">
+                      <button class="btn-info" onclick="saveSettings()">Save Changes</button>
+                      <button class="btn-secondary" onclick="resetSettings()">Reset to Default</button>
+                    </div>
+                  </div>
+
+                  <div class="pb-3">
+                    <div class="flex border-b border-[#dce1e5] px-4 gap-8" id="settings-tabs">
+                      <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#111518] text-[#111518] pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchSettingsTab('practice')">
+                        <p class="text-[#111518] text-sm font-bold leading-normal tracking-[0.015em]">Practice Information</p>
+                      </a>
+                      <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#637988] pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchSettingsTab('users')">
+                        <p class="text-[#637988] text-sm font-bold leading-normal tracking-[0.015em]">User Management</p>
+                      </a>
+                      <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#637988] pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchSettingsTab('notifications')">
+                        <p class="text-[#637988] text-sm font-bold leading-normal tracking-[0.015em]">Notifications</p>
+                      </a>
+                      <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#637988] pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchSettingsTab('integrations')">
+                        <p class="text-[#637988] text-sm font-bold leading-normal tracking-[0.015em]">Integrations</p>
+                      </a>
+                      <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#637988] pb-[13px] pt-4 cursor-pointer" onclick="window.navigation.switchSettingsTab('security')">
+                        <p class="text-[#637988] text-sm font-bold leading-normal tracking-[0.015em]">Security</p>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="p-4 space-y-8" id="settings-content">
+                    <!-- Content for selected settings tab will be loaded here -->
+                  </div>
+              `;
+      }
+
+      // New function to handle switching settings tabs
+      switchSettingsTab = (tabId) => { // Converted to arrow function
+        this.currentSettingsTab = tabId;
+        const settingsContentDiv = document.getElementById('settings-content');
+        const settingsTabs = document.getElementById('settings-tabs');
+
+        // Update active tab styling
+        Array.from(settingsTabs.children).forEach(tab => {
+          tab.classList.remove('border-b-[#111518]', 'text-[#111518]');
+          tab.classList.add('border-b-transparent', 'text-[#637988]');
+        });
+        const activeTab = settingsTabs.querySelector(`[onclick*="switchSettingsTab('${tabId}')"]`);
+        if (activeTab) {
+          activeTab.classList.remove('border-b-transparent', 'text-[#637988]');
+          activeTab.classList.add('border-b-[#111518]', 'text-[#111518]');
+        }
+
+        // Load content based on tabId
+        switch (tabId) {
+          case 'practice':
+            settingsContentDiv.innerHTML = this.getPracticeInfoContent();
+            break;
+          case 'users':
+            settingsContentDiv.innerHTML = this.getUserManagementContent();
+            break;
+          case 'notifications':
+            settingsContentDiv.innerHTML = this.getNotificationSettingsContent();
+            break;
+          case 'integrations':
+            settingsContentDiv.innerHTML = this.getIntegrationsContent();
+            break;
+          case 'security':
+            settingsContentDiv.innerHTML = this.getSecuritySettingsContent();
+            break;
+          default:
+            settingsContentDiv.innerHTML = this.getPracticeInfoContent();
+        }
+      }
+
+      getPracticeInfoContent = () => { // Converted to arrow function
+        return `
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">Practice Information</h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Practice Name</label>
+                      <input type="text" value="Medical IT Solutions" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">License Number</label>
+                      <input type="text" value="MD-12345-2025" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                      <input type="tel" value="(555) 123-4567" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <input type="email" value="contact@medicalit.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="md:col-span-2">
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                      <textarea rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">123 Medical Center Dr, Suite 100
+Healthcare City, HC 12345</textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Appointment Settings -->
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">Appointment Settings</h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Default Appointment Duration</label>
+                      <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option>15 minutes</option>
+                        <option selected>30 minutes</option>
+                        <option>45 minutes</option>
+                        <option>60 minutes</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Buffer Time Between Appointments</label>
+                      <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option>0 minutes</option>
+                        <option>5 minutes</option>
+                        <option selected>10 minutes</option>
+                        <option>15 minutes</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Working Hours Start</label>
+                      <input type="time" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Working Hours End</label>
+                      <input type="time" value="17:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                  </div>
+
+                  <div class="mt-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-4">Working Days</label>
+                    <div class="grid grid-cols-7 gap-2">
+                      ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => `
+                        <label class="flex items-center justify-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                          <input type="checkbox" class="mr-2" ${index < 5 ? 'checked' : ''}>
+                          <span class="text-sm font-medium">${day}</span>
+                        </label>
+                      `).join('')}
+                    </div>
+                  </div>
+                </div>
+              `;
+      }
+
+      getUserManagementContent = () => { // Converted to arrow function
+        return `
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">User Management</h3>
+                  <div class="mb-4 flex justify-between items-center">
+                    <input type="text" placeholder="Search users..." class="flex-1 min-w-48 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <button class="btn-success ml-4" onclick="addNewUser()">Add New User</button>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                        <tr>
+                          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                        ${this.mockData.users.map(user => `
+                          <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${user.name}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.email}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.role}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                                ${user.status}
+                              </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                              <button class="text-blue-600 hover:text-blue-900" onclick="editUser(${user.id})">Edit</button>
+                              <button class="text-red-600 hover:text-red-900" onclick="deleteUser(${user.id})">Delete</button>
+                            </td>
+                          </tr>
+                        `).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              `;
+      }
+
+      getNotificationSettingsContent = () => { // Converted to arrow function
+        return `
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">Notification Preferences</h3>
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                      <div>
+                        <h4 class="font-semibold text-gray-800">Email Notifications</h4>
+                        <p class="text-sm text-gray-600">Receive email alerts for new appointments, cancellations, and billing updates.</p>
+                      </div>
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                      <div>
+                        <h4 class="font-semibold text-gray-800">SMS Notifications</h4>
+                        <p class="text-sm text-gray-600">Send text message reminders to patients for upcoming appointments.</p>
+                      </div>
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                      <div>
+                        <h4 class="font-semibold text-gray-800">Push Notifications</h4>
+                        <p class="text-sm text-gray-600">Browser notifications for urgent updates and system alerts.</p>
+                      </div>
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
+                    </div>
+
+                    <div class="flex flex-col gap-4 p-4 bg-gray-50 rounded-lg">
+                        <h4 class="font-semibold text-gray-800">Reminder Timing</h4>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Reminder (Email)</label>
+                            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option>24 hours before</option>
+                                <option>48 hours before</option>
+                                <option>1 week before</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Appointment Reminder (SMS)</label>
+                            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option>1 hour before</option>
+                                <option>2 hours before</option>
+                                <option>24 hours before</option>
+                            </select>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+      }
+
+      getIntegrationsContent = () => { // Converted to arrow function
+        return `
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">Integrations</h3>
+                  <div class="space-y-4">
+                    ${this.mockData.integrations.map(integration => `
+                      <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div>
+                          <h4 class="font-semibold text-gray-800">${integration.name}</h4>
+                          <p class="text-sm text-gray-600">${integration.description}</p>
+                        </div>
+                        <div>
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${integration.status === 'Connected' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${integration.status}
+                          </span>
+                          <button class="ml-3 ${integration.status === 'Connected' ? 'btn-danger' : 'btn-success'} px-3 py-1 text-sm" onclick="${integration.status === 'Connected' ? 'disconnectIntegration' : 'connectIntegration'}(${integration.id})">
+                            ${integration.status === 'Connected' ? 'Disconnect' : 'Connect'}
+                          </button>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `;
+      }
+
+      getSecuritySettingsContent = () => { // Converted to arrow function
+        return `
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">Security Settings</h3>
+                  <div class="space-y-6">
+                    <div>
+                      <h4 class="font-semibold text-gray-800 mb-3">Change Password</h4>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                          <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                          <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                          <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div class="md:col-span-2">
+                          <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                          <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                      </div>
+                      <button class="btn-info mt-4" onclick="changePassword()">Change Password</button>
+                    </div>
+
+                    <div>
+                      <h4 class="font-semibold text-gray-800 mb-3">Two-Factor Authentication (2FA)</h4>
+                      <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div>
+                          <p class="font-semibold text-gray-800">Enable 2FA</p>
+                          <p class="text-sm text-gray-600">Add an extra layer of security to your account.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" class="sr-only peer">
+                          <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                      </div>
+                      <button class="btn-secondary mt-4" onclick="setup2FA()">Setup 2FA</button>
+                    </div>
+
+                    <div>
+                      <h4 class="font-semibold text-gray-800 mb-3">Recent Activity Log</h4>
+                      <div class="bg-gray-50 p-4 rounded-lg text-sm text-gray-600 space-y-2">
+                        <p>Login from 192.168.1.10 (New York) - 2025-07-05 14:30</p>
+                        <p>Password change initiated - 2025-07-04 10:15</p>
+                        <p>Data export completed - 2025-07-03 16:00</p>
+                      </div>
+                      <button class="btn-secondary mt-4" onclick="viewFullActivityLog()">View Full Log</button>
+                    </div>
+                  </div>
+                </div>
+              `;
+      }
+
+      getHelpAndDocsContent = () => { // Converted to arrow function
+        return `
+              <div class="flex flex-wrap justify-between gap-3 p-4">
+                <div class="flex min-w-72 flex-col gap-3">
+                  <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Help & Documentation</p>
+                  <p class="text-[#637988] text-sm font-normal leading-normal">Find answers to your questions, explore user guides, and get support.</p>
+                </div>
+                <div class="flex gap-3">
+                  <button class="btn-info" onclick="contactSupport()">Contact Support</button>
+                  <button class="btn-secondary" onclick="viewTroubleshooting()">Troubleshooting</button>
+                </div>
+              </div>
+
+              <div class="p-4 space-y-8">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">Frequently Asked Questions (FAQs)</h3>
+                  <div class="space-y-4">
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-800 mb-2">How do I book a new appointment?</h4>
+                      <p class="text-sm text-gray-600">Navigate to the "Book Appointment" section from the sidebar. Fill in the patient details, select the visit type, choose a date from the calendar, and pick an available time slot. Finally, click "Confirm Appointment".</p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-800 mb-2">Can I modify an existing appointment?</h4>
+                      <p class="text-sm text-gray-600">Yes, go to the "Appointments" page. You will see a list of all appointments. Use the "Edit" button next to the desired appointment to make changes.</p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-800 mb-2">How do I add a new patient?</h4>
+                      <p class="text-sm text-gray-600">In the "Patients" section, click on the "Add New Patient" button. A form will appear where you can enter all the necessary patient information.</p>
+                    </div>
+                    <div class="border-b border-gray-200 pb-4">
+                      <h4 class="font-semibold text-gray-800">Where can I view billing statements?</h4>
+                      <p class="text-sm text-gray-600">All billing and payment information can be found under the "Billing" section. You can search for invoices, view their status, and record payments.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">User Guides & Tutorials</h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                      <h4 class="font-semibold text-blue-700 mb-2">Getting Started with Medical IT Solutions</h4>
+                      <p class="text-sm text-gray-600">A comprehensive guide for new users to set up their practice and begin using the system.</p>
+                      <button class="text-blue-600 text-sm mt-2" onclick="viewGuide('getting-started')">Read Guide &rarr;</button>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                      <h4 class="font-semibold text-blue-700 mb-2">Advanced Analytics Deep Dive</h4>
+                      <p class="text-sm text-gray-600">Learn how to leverage AI-powered analytics for optimizing your practice's performance.</p>
+                      <button class="text-blue-600 text-sm mt-2" onclick="viewGuide('analytics-deep-dive')">Read Guide &rarr;</button>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow duration-200 cursor-pointer">
+                      <h4 class="font-semibold text-blue-700 mb-2">Managing Patient Records Efficiently</h4>
+                      <p class="text-sm text-gray-600">Tips and best practices for maintaining accurate and accessible patient data.</p>
+                      <button class="text-blue-600 text-sm mt-2" onclick="viewGuide('patient-records')">Read Guide &rarr;</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <h3 class="text-xl font-bold text-gray-800 mb-6">Support & Contact</h3>
+                  <div class="space-y-3 text-gray-700">
+                    <p>If you cannot find the answer to your question in our FAQs or guides, please reach out to our support team.</p>
+                    <p class="font-semibold">Email: <a href="mailto:support@medicalit.com" class="text-blue-600 hover:underline">support@medicalit.com</a></p>
+                    <p class="font-semibold">Phone: <span class="text-blue-600">(123) 456-7890</span></p>
+                    <p>Our support team is available Monday to Friday, 9 AM - 5 PM EST.</p>
+                  </div>
+                </div>
+              </div>
+            `;
+      }
+
+      getBookingContent = () => { // Converted to arrow function
+        return `
+                  <div class="flex flex-1 justify-center pb-5">
+                    <div class="layout-content-container flex flex-col max-w-[512px] flex-1">
+                      <div class="flex flex-wrap justify-between gap-3 p-4">
+                        <div class="flex min-w-72 flex-col gap-3">
+                          <p class="text-[#121516] tracking-light text-[32px] font-bold leading-tight">Book Appointment</p>
+                          <p class="text-[#6a7881] text-base font-normal leading-normal">
+                            Schedule your appointment with our AI-optimized system. Get personalized recommendations for the best time slots and doctors.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                        <label class="flex flex-col min-w-40 flex-1">
+                          <p class="text-[#121516] text-base font-medium leading-normal pb-2">Full Name</p>
+                          <input
+                            placeholder="Enter your full name"
+                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121516] focus:outline-0 focus:ring-0 border border-[#dce1e5] bg-white focus:border-[#dce1e5] h-14 placeholder:text-[#6a7881] p-[15px] text-base font-normal leading-normal"
+                          />
+                        </label>
+                      </div>
+                      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                        <label class="flex flex-col min-w-40 flex-1">
+                          <p class="text-[#121516] text-base font-medium leading-normal pb-2">Email</p>
+                          <input
+                            placeholder="Enter your email address"
+                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121516] focus:outline-0 focus:ring-0 border border-[#dce1e5] bg-white focus:border-[#dce1e5] h-14 placeholder:text-[#6a7881] p-[15px] text-base font-normal leading-normal"
+                          />
+                        </label>
+                      </div>
+                      <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+                        <label class="flex flex-col min-w-40 flex-1">
+                          <p class="text-[#121516] text-base font-medium leading-normal pb-2">Phone Number</p>
+                          <input
+                            placeholder="Enter your phone number"
+                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121516] focus:outline-0 focus:ring-0 border border-[#dce1e5] bg-white focus:border-[#dce1e5] h-14 placeholder:text-[#6a7881] p-[15px] text-base font-normal leading-normal"
+                          />
+                        </label>
+                      </div>
+                      <h3 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Visit Type</h3>
+                      <div class="p-4">
+                        <div class="flex flex-col gap-3">
+                          <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <div class="flex grow cursor-pointer flex-col">
+                              <p class="text-[#121516] text-sm font-medium leading-normal">General Consultation</p>
+                              <p class="text-[#6a7881] text-sm font-normal leading-normal">Routine health checkup and basic medical consultation</p>
+                            </div>
+                          </label>
+                          <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <div class="flex grow cursor-pointer flex-col">
+                              <p class="text-[#121516] text-sm font-medium leading-normal">Follow-up Appointment</p>
+                              <p class="text-[#6a7881] text-sm font-normal leading-normal">Follow-up on previous treatment or ongoing care</p>
+                            </div>
+                          </label>
+                          <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <div class="flex grow cursor-pointer flex-col">
+                              <p class="text-[#121516] text-sm font-medium leading-normal">Specialist Referral</p>
+                              <p class="text-[#6a7881] text-sm font-normal leading-normal">Consultation with a medical specialist</p>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                      <h3 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Select Date</h3>
+                      <div class="p-4">
+                        <div class="flex overflow-hidden rounded-xl border border-solid border-[#dce1e5]">
+                          <div class="flex flex-1 flex-col">
+                            <div class="flex justify-between p-4">
+                              <h2 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em]">January 2025</h2>
+                              <div class="flex gap-2">
+                                <button class="flex h-8 w-8 items-center justify-center">
+                                  <div class="text-[#121516]" data-icon="CaretLeft" data-size="20px" data-weight="regular">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                      <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                                    </svg>
+                                  </div>
+                                </button>
+                                <button class="flex h-8 w-8 items-center justify-center">
+                                  <div class="text-[#111518]" data-icon="CaretRight" data-size="20px" data-weight="regular">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+                                      <path d="m181.66,133.66-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                                    </svg>
+                                  </div>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1 p-4 pt-0">
+                              <div class="flex h-12 w-full items-center justify-center"><p class="text-[#6a7881] text-sm font-medium leading-normal">Sun</p></div>
+                              <div class="flex h-12 w-full items-center justify-center"><p class="text-[#6a7881] text-sm font-medium leading-normal">Mon</p></div>
+                              <div class="flex h-12 w-full items-center justify-center"><p class="text-[#6a7881] text-sm font-medium leading-normal">Tue</p></div>
+                              <div class="flex h-12 w-full items-center justify-center"><p class="text-[#6a7881] text-sm font-medium leading-normal">Wed</p></div>
+                              <div class="flex h-12 w-full items-center justify-center"><p class="text-[#6a7881] text-sm font-medium leading-normal">Thu</p></div>
+                              <div class="flex h-12 w-full items-center justify-center"><p class="text-[#6a7881] text-sm font-medium leading-normal">Fri</p></div>
+                              <div class="flex h-12 w-full items-center justify-center"><p class="text-[#6a7881] text-sm font-medium leading-normal">Sat</p></div>
+                              ${this.generateCalendarDays()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <h3 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Available Time Slots</h3>
+                      <div class="flex flex-wrap gap-3 p-4">
+                        ${this.generateTimeSlots()}
+                      </div>
+                      <div class="flex px-4 py-3">
+                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-gradient-to-r from-[#b2d1e5] to-[#a3c8e0] text-[#121516] text-base font-bold leading-normal tracking-[0.015em] grow btn-primary" onclick="confirmAppointment()">
+                          <span class="truncate">Confirm Appointment</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+              `;
+      }
+
+      generateCalendarDays = () => { // Converted to arrow function
+        let daysHtml = '';
+        for (let day = 1; day <= 31; day++) {
+          const bgClass = day === 5 ? 'bg-[#b2d1e5]' : '';
+          daysHtml += `
+                      <button class="flex h-12 w-full items-center justify-center rounded-lg" onclick="selectDate(${day})">
+                          <div class="text-[#121516] text-sm font-bold leading-normal ${bgClass} w-full h-full flex items-center justify-center rounded-lg">${day}</div>
+                      </button>
+                  `;
+        }
+        return daysHtml;
+      }
+
+      generateTimeSlots = () => { // Converted to arrow function
+        const timeSlots = ['9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM'];
+        return timeSlots.map((time, index) => `
+                  <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px] text-sm font-medium leading-normal">
+                      <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="timeSlot" />
+                      <p class="text-[#121516] text-sm font-medium leading-normal">${time}</p>
+                  </label>
+              `).join('');
+      }
+
+      initBookingPage = () => { // Converted to arrow function
+        console.log('Booking page initialized');
+      }
+    }
+
+    // Global functions for navigation and interactions
+    function showPage(pageId) {
+      // Ensure window.navigation is available before calling its method
+      if (window.navigation) {
+        const currentEvent = window.event || (typeof event !== 'undefined' ? event : null);
+        window.navigation.showPage(pageId, currentEvent);
+      } else {
+        console.error('MedicalAppNavigation not yet initialized.');
+      }
+    }
+
+    function selectDate(day) {
+      const currentEvent = window.event || (typeof event !== 'undefined' ? event : null);
+      document.querySelectorAll('button div').forEach(div => {
+        div.classList.remove('bg-[#b2d1e5]');
+      });
+      if (currentEvent && currentEvent.target) {
+        currentEvent.target.classList.add('bg-[#b2d1e5]');
+      }
+    }
+
+    // Replaced alert/confirm with custom modal functions
+    function showCustomAlert(message) {
+      const alertModal = document.createElement('div');
+      alertModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+      alertModal.innerHTML = `
+              <div class="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full text-center">
+                  <p class="text-lg font-semibold text-gray-800 mb-4">${message}</p>
+                  <button class="btn-primary px-4 py-2" onclick="this.parentElement.parentElement.remove()">OK</button>
+              </div>
+          `;
+      document.body.appendChild(alertModal);
+    }
+
+    function showCustomConfirm(message, onConfirmCallback) {
+      const confirmModal = document.createElement('div');
+      confirmModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+      confirmModal.innerHTML = `
+              <div class="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full text-center">
+                  <p class="text-lg font-semibold text-gray-800 mb-4">${message}</p>
+                  <div class="flex justify-center space-x-4">
+                      <button class="btn-danger px-4 py-2" onclick="this.parentElement.parentElement.parentElement.remove();">Cancel</button>
+                      <button class="btn-success px-4 py-2" onclick="this.parentElement.parentElement.parentElement.remove(); ${onConfirmCallback}()">Confirm</button>
+                  </div>
+              </div>
+          `;
+      document.body.appendChild(confirmModal);
+    }
+
+    function confirmAppointment() {
+      const name = document.querySelector('input[placeholder="Enter your full name"]')?.value;
+      const email = document.querySelector('input[placeholder="Enter your email address"]')?.value;
+      const phone = document.querySelector('input[placeholder="Enter your phone number"]')?.value;
+
+      if (!name || !email || !phone) {
+        showCustomAlert('Please fill in all required fields.');
+        return;
+      }
+
+      showCustomAlert('Appointment confirmed! You will receive a confirmation email shortly.');
+    }
+
+    // Additional interactive functions
+    function exportReport() {
+      showCustomAlert('Analytics report exported successfully!');
+    }
+
+    function refreshAnalytics() {
+      showCustomAlert('Analytics data refreshed!');
+    }
+
+    function exportSchedule() {
+      showCustomAlert('Schedule exported successfully!');
+    }
+
+    function editAppointment(id) {
+      showCustomAlert(`Editing appointment ID: ${id}`);
+    }
+
+    function checkIn(id) {
+      showCustomAlert(`Patient checked in for appointment ID: ${id}`);
+    }
+
+    function cancelAppointment(id) {
+      showCustomConfirm('Are you sure you want to cancel this appointment?', `() => { showCustomAlert('Appointment ID: ${id} has been cancelled.'); }`);
+    }
+
+    function viewPatient(id) {
+      showCustomAlert(`Viewing patient profile for ID: ${id}`);
+    }
+
+    function editPatient(id) {
+      showCustomAlert(`Editing patient information for ID: ${id}`);
+    }
+
+    function scheduleAppointment(id) {
+      showCustomAlert(`Scheduling new appointment for patient ID: ${id}`);
+      showPage('booking');
+    }
+
+    function addNewPatient() {
+      showCustomAlert('Adding new patient to the system...');
+    }
+
+    function createInvoice() {
+      showCustomAlert('Creating new invoice...');
+    }
+
+    function processPayment() {
+      showCustomAlert('Processing payment...');
+    }
+
+    function generateReport() {
+      showCustomAlert('Generating billing report...');
+    }
+
+    function viewInvoice(id) {
+      showCustomAlert(`Viewing invoice ID: INV-${id.toString().padStart(4, '0')}`);
+    }
+
+    function sendInvoice(id) {
+      showCustomAlert(`Sending invoice ID: INV-${id.toString().padStart(4, '0')}`);
+    }
+
+    function recordPayment(id) {
+      showCustomAlert(`Recording payment for invoice ID: INV-${id.toString().padStart(4, '0')}`);
+    }
+
+    function saveSettings() {
+      showCustomAlert('Settings saved successfully!');
+    }
+
+    function resetSettings() {
+      showCustomConfirm('Are you sure you want to reset all settings to default?', `() => { showCustomAlert('Settings reset to default values.'); }`);
+    }
+
+    // Functions for User Management
+    function addNewUser() {
+      showCustomAlert('Opening form to add new user...');
+    }
+
+    function editUser(id) {
+      showCustomAlert(`Editing user ID: ${id}`);
+    }
+
+    function deleteUser(id) {
+      showCustomConfirm(`Are you sure you want to delete user ID: ${id}?`, `() => { showCustomAlert('User deleted successfully.'); }`);
+    }
+
+    // Functions for Integrations
+    function connectIntegration(id) {
+      showCustomAlert(`Connecting to integration ID: ${id}`);
+    }
+
+    function disconnectIntegration(id) {
+      showCustomConfirm(`Are you sure you want to disconnect integration ID: ${id}?`, `() => { showCustomAlert('Integration disconnected.'); }`);
+    }
+
+    // Functions for Security
+    function changePassword() {
+      showCustomAlert('Password change request sent.');
+    }
+
+    function setup2FA() {
+      showCustomAlert('Initiating 2FA setup...');
+    }
+
+    function viewFullActivityLog() {
+      showCustomAlert('Loading full activity log...');
+    }
+
+    // Functions for Help & Docs
+    function contactSupport() {
+      showCustomAlert('Redirecting to support contact page...');
+    }
+
+    function viewTroubleshooting() {
+      showCustomAlert('Loading troubleshooting guide...');
+    }
+
+    function viewGuide(guideId) {
+      showCustomAlert(`Loading user guide: ${guideId}`);
+    }
+
+
+    // Enhanced Medical Practice Management System with Professional Analytics
+    class MedicalPracticeSystem {
+      constructor(mockData) { // Accept mockData as a parameter
+        this.mockData = mockData; // Store the mockData
+        this.appointments = this.mockData.appointments; // Use provided mock data
+        this.patients = this.mockData.patients; // Use provided mock data
+        this.doctors = [
+          {
+            id: 1,
+            name: "Dr. Dana Scully",
+            specialty: "Internal Medicine",
+            availability: this.generateAvailability(),
+            rating: 4.9,
+            experience: "15 years",
+            education: "Harvard Medical School"
+          },
+          {
+            id: 2,
+            name: "Dr. Emily Johnson",
+            specialty: "Cardiology",
+            availability: this.generateAvailability(),
+            rating: 4.8,
+            experience: "12 years",
+            education: "Johns Hopkins University"
+          },
+          {
+            id: 3,
+            name: "Dr. Michael Brown",
+            specialty: "Dermatology",
+            availability: this.generateAvailability(),
+            rating: 4.7,
+            experience: "10 years",
+            education: "Stanford Medical School"
+          },
+          {
+            id: 4,
+            name: "Dr. Sarah Wilson",
+            specialty: "Pediatrics",
+            availability: this.generateAvailability(),
+            rating: 4.9,
+            experience: "18 years",
+            education: "Yale School of Medicine"
+          },
+          {
+            id: 5,
+            name: "Dr. Robert Davis",
+            specialty: "Orthopedics",
+            availability: this.generateAvailability(),
+            rating: 4.8,
+            experience: "20 years",
+            education: "Mayo Clinic College of Medicine"
+          }
+        ];
+        this.historicalData = this.generateHistoricalData();
+        this.analytics = this.generateAnalytics();
+        this.init();
+      }
+
+      init = () => { // Converted to arrow function
+        console.log('Enhanced Medical Practice System Initialized');
+        console.log(`Total Patients: ${this.patients.length}`);
+        console.log(`Total Appointments: ${this.appointments.length}`);
+        console.log(`Available Doctors: ${this.doctors.length}`);
+        console.log(`Analytics Data Points: ${this.historicalData.length}`);
+      }
+
+      generateAvailability = () => { // Converted to arrow function
+        const availability = {};
+        const timeSlots = [
+          '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM',
+          '11:00 AM', '11:30 AM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM',
+          '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM'
+        ];
+
+        for (let day = 1; day <= 31; day++) {
+          availability[day] = timeSlots.filter(() => Math.random() > 0.3);
+        }
+        return availability;
+      }
+
+      generateHistoricalData = () => { // Converted to arrow function
+        const data = [];
+        const services = ['General Consultation', 'Follow-up', 'Specialist Referral', 'Emergency', 'Preventive Care', 'Lab Work'];
+
+        for (let i = 0; i < 2000; i++) {
+          data.push({
+            id: i + 1,
+            patientAge: Math.floor(Math.random() * 80) + 18,
+            appointmentDay: Math.floor(Math.random() * 7),
+            appointmentTime: Math.floor(Math.random() * 12) + 8,
+            visitType: services[Math.floor(Math.random() * services.length)],
+            duration: [15, 30, 45, 60][Math.floor(Math.random() * 4)],
+            cost: Math.floor(Math.random() * 300) + 50,
+            satisfaction: Math.floor(Math.random() * 2) + 4, // 4-5 star ratings
+            noShow: Math.random() > 0.85,
+            insurance: ['Blue Cross', 'Aetna', 'United Healthcare', 'Cigna', 'Kaiser'][Math.floor(Math.random() * 5)],
+            date: getRandomDate(new Date(2023, 0, 1), new Date(2025, 11, 31)), // Use global getRandomDate
+            completed: Math.random() > 0.05
+          });
+        }
+        return data;
+      }
+
+      generateAnalytics = () => { // Converted to arrow function
+        const completedAppointments = this.historicalData.filter(apt => apt.completed);
+        const noShows = this.historicalData.filter(apt => apt.noShow);
+        const totalRevenue = completedAppointments.reduce((sum, apt) => sum + apt.cost, 0);
+        const avgSatisfaction = completedAppointments.reduce((sum, apt) => sum + apt.satisfaction, 0) / completedAppointments.length;
+
+        return {
+          totalAppointments: this.historicalData.length,
+          completedAppointments: completedAppointments.length,
+          noShowRate: (noShows.length / this.historicalData.length * 100).toFixed(1),
+          avgWaitTime: Math.floor(Math.random() * 20) + 5,
+          patientSatisfaction: avgSatisfaction.toFixed(1),
+          totalRevenue: totalRevenue,
+          monthlyRevenue: Math.floor(totalRevenue / 12),
+          newPatients: Math.floor(this.patients.length * 0.3), // Use this.patients
+          returnPatients: Math.floor(this.patients.length * 0.7), // Use this.patients
+          avgAppointmentDuration: 32,
+          peakHours: ['10:00 AM', '2:00 PM', '3:30 PM'],
+          mostPopularService: 'General Consultation',
+          doctorUtilization: 87.5,
+          cancellationRate: 5.2,
+          revenueGrowth: 12.5,
+          efficiencyScore: 94.2
+        };
+      }
+
+      // AI-powered prediction algorithms
+      predictNoShow = (patientData) => { // Converted to arrow function
+        const {age, dayOfWeek, timeHour, visitType, previousNoShows} = patientData;
+        let probability = 0.15; // Base probability
+
+        // Age factor
+        if (age < 25) probability += 0.1;
+        if (age > 75) probability += 0.08;
+
+        // Day of week factor
+        if (dayOfWeek === 1) probability += 0.05; // Monday
+        if (dayOfWeek === 5) probability += 0.03; // Friday
+
+        // Time factor
+        if (timeHour < 9) probability += 0.08; // Early morning
+        if (timeHour > 16) probability += 0.06; // Late afternoon
+
+        // Visit type factor
+        if (visitType === 'Emergency') probability -= 0.1;
+        if (visitType === 'Follow-up') probability -= 0.05;
+        if (visitType === 'Specialist Referral') probability += 0.07;
+
+        // Previous history
+        probability += (previousNoShows || 0) * 0.15;
+
+        return Math.min(Math.max(probability, 0), 0.95);
+      }
+
+      optimizeSchedule = (date) => { // Converted to arrow function
+        const recommendations = [];
+        const dayAppointments = this.appointments.filter(apt => apt.date === date);
+
+        this.doctors.forEach(doctor => {
+          const availability = doctor.availability[new Date(date).getDate()] || [];
+          const doctorAppointments = dayAppointments.filter(apt => apt.doctor === doctor.name);
+
+          availability.forEach(timeSlot => {
+            const isBooked = doctorAppointments.some(apt => apt.time === timeSlot);
+            if (!isBooked) {
+              const score = this.calculateOptimizationScore(doctor, timeSlot, doctorAppointments);
+              recommendations.push({
+                doctor: doctor.name,
+                specialty: doctor.specialty,
+                time: timeSlot,
+                score: score,
+                efficiency: this.calculateEfficiency(timeSlot),
+                waitTime: this.estimateWaitTime(doctorAppointments.length),
+                rating: doctor.rating
+              });
+            }
+          });
+        });
+
+        return recommendations.sort((a, b) => b.score - a.score).slice(0, 10);
+      }
+
+      calculateOptimizationScore = (doctor, timeSlot, existingAppointments) => { // Converted to arrow function
+        let score = 100;
+
+        // Time preference optimization
+        const hour = parseInt(timeSlot.split(':')[0]);
+        if (hour >= 9 && hour <= 11) score += 25; // Peak efficiency hours
+        if (hour >= 13 && hour <= 15) score += 20; // Good afternoon hours
+
+        // Doctor rating bonus
+        score += doctor.rating * 10;
+
+        // Load balancing
+        score -= existingAppointments.length * 8;
+
+        // Specialty demand adjustment
+        if (doctor.specialty === 'Internal Medicine') score += 15;
+        if (doctor.specialty === 'Emergency Medicine') score += 20;
+
+        return Math.max(score, 0);
+      }
+
+      calculateEfficiency = (timeSlot) => { // Converted to arrow function
+        const hour = parseInt(timeSlot.split(':')[0]);
+        const baseEfficiency = 85;
+
+        if (hour >= 9 && hour <= 11) return baseEfficiency + 15;
+        if (hour >= 13 && hour <= 15) return baseEfficiency + 10;
+        if (hour >= 8 && hour < 9) return baseEfficiency + 5;
+        if (hour >= 15 && hour <= 17) return baseEfficiency + 5;
+
+        return baseEfficiency;
+      }
+
+      estimateWaitTime = (appointmentCount) => { // Converted to arrow function
+        const baseWaitTime = 10;
+        return Math.min(baseWaitTime + (appointmentCount * 3), 45);
+      }
+
+      // Advanced analytics and reporting
+      generateAdvancedReport = () => { // Converted to arrow function
+        const analytics = this.analytics;
+        const trends = this.calculateTrends();
+        const forecasts = this.generateForecasts();
+
+        return {
+          summary: {
+            totalPatients: this.patients.length, // Use this.patients
+            activePatients: this.patients.filter(p => p.status === 'Active').length, // Use this.patients
+            totalAppointments: analytics.totalAppointments,
+            completionRate: ((analytics.completedAppointments / analytics.totalAppointments) * 100).toFixed(1),
+            revenue: analytics.totalRevenue,
+            satisfaction: analytics.patientSatisfaction
+          },
+          trends: trends,
+          forecasts: forecasts,
+          performance: {
+            efficiency: analytics.efficiencyScore,
+            utilization: analytics.doctorUtilization,
+            noShowRate: analytics.noShowRate,
+            cancellationRate: analytics.cancellationRate
+          },
+          recommendations: this.generateRecommendations()
+        };
+      }
+
+      calculateTrends = () => { // Converted to arrow function
+        return {
+          appointmentTrend: '+12.5%',
+          revenueTrend: '+15.3%',
+          patientSatisfactionTrend: '+2.1%',
+          efficiencyTrend: '+8.7%',
+          noShowTrend: '-1.8%'
+        };
+      }
+
+      generateForecasts = () => { // Converted to arrow function
+        return {
+          nextMonthAppointments: Math.floor(this.analytics.totalAppointments * 1.125),
+          nextMonthRevenue: Math.floor(this.analytics.monthlyRevenue * 1.15),
+          expectedGrowth: '14.2%',
+          capacityUtilization: '92%'
+        };
+      }
+
+      generateRecommendations = () => { // Converted to arrow function
+        return [
+          'Optimize morning time slots (9-11 AM) for better efficiency',
+          'Implement SMS reminders to reduce no-show rate by 2%',
+          'Consider adding evening hours to accommodate working patients',
+          'Expand cardiology services based on high demand',
+          'Implement telehealth options for follow-up appointments'
+        ];
+      }
+
+      // Utility functions (moved to global scope)
+      getRandomRecentDate = () => { // Converted to arrow function
+        const now = new Date();
+        const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
+        return getRandomDate(thirtyDaysAgo, now).toISOString().split('T')[0];
+      }
+
+      getRandomUpcomingDate = () => { // Converted to arrow function
+        const now = new Date();
+        const futureDate = new Date(now.getTime() + (Math.random() * 30 * 24 * 60 * 60 * 1000));
+        return futureDate.toISOString().split('T')[0];
+      }
+
+      getRandomBirthDate = (age) => { // Converted to arrow function
+        const now = new Date();
+        const birthYear = now.getFullYear() - age;
+        return `${birthYear}-${String(Math.floor(Math.random() * 12) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`;
+      }
+
+      getRandomTimeSlot = () => { // Converted to arrow function
+        const slots = ['8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM'];
+        return slots[Math.floor(Math.random() * slots.length)];
+      }
+
+      getRandomAllergies = () => { // Converted to arrow function
+        const allergies = ['None', 'Penicillin', 'Shellfish', 'Peanuts', 'Latex', 'Dust mites'];
+        return allergies[Math.floor(Math.random() * allergies.length)];
+      }
+
+      getRandomMedications = () => { // Converted to arrow function
+        const medications = ['None', 'Lisinopril', 'Metformin', 'Atorvastatin', 'Levothyroxine', 'Omeprazole'];
+        return medications[Math.floor(Math.random() * medications.length)];
+      }
+
+      getRandomNotes = () => { // Converted to arrow function
+        const notes = [
+          'Routine checkup',
+          'Follow-up on previous treatment',
+          'Patient reported mild symptoms',
+          'Referral to specialist requested',
+          'Prescription refill needed',
+          'Discussed treatment options'
+        ];
+        return notes[Math.floor(Math.random() * notes.length)];
+      }
+    }
+
+    // Enhanced UI Components and Interactions
+    class UIManager {
+      constructor(medicalSystem) {
+        this.system = medicalSystem;
+        this.init();
+      }
+
+      init = () => { // Converted to arrow function
+        this.createAnalyticsPanel();
+        this.setupRealtimeUpdates();
+        console.log('UI Manager Initialized');
+      }
+
+      createAnalyticsPanel = () => { // Converted to arrow function
+        // Create floating analytics button
+        const analyticsButton = document.createElement('button');
+        analyticsButton.innerHTML = `
+                  <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                  </svg>
+                  Advanced Analytics
+              `;
+        analyticsButton.className = 'fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 flex items-center';
+        analyticsButton.onclick = () => this.showAdvancedAnalytics();
+        document.body.appendChild(analyticsButton);
+      }
+
+      showAdvancedAnalytics = () => { // Converted to arrow function
+        const report = this.system.generateAdvancedReport();
+
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+        modal.innerHTML = `
+                  <div class="bg-white rounded-2xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                      <div class="flex justify-between items-center mb-6">
+                          <h2 class="text-2xl font-bold text-gray-800">Advanced Practice Analytics</h2>
+                          <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-500 hover:text-gray-700">
+                              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                              </svg>
+                          </button>
+                      </div>
+
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                          <div class="bg-blue-50 p-4 rounded-lg">
+                              <h3 class="font-semibold text-blue-700">Total Patients</h3>
+                              <p class="text-2xl font-bold text-gray-800">${report.summary.totalPatients.toLocaleString()}</p>
+                          </div>
+                          <div class="bg-green-50 p-4 rounded-lg">
+                              <h3 class="font-semibold text-green-700">Completion Rate</h3>
+                              <p class="text-2xl font-bold text-gray-800">${report.summary.completionRate}%</p>
+                          </div>
+                          <div class="bg-purple-50 p-4 rounded-lg">
+                              <h3 class="font-semibold text-purple-700">Total Revenue</h3>
+                              <p class="text-2xl font-bold text-gray-800">$${report.summary.revenue.toLocaleString()}</p>
+                          </div>
+                          <div class="bg-yellow-50 p-4 rounded-lg">
+                              <h3 class="font-semibold text-yellow-700">Satisfaction</h3>
+                              <p class="text-2xl font-bold text-gray-800">${report.summary.satisfaction}/5.0</p>
+                          </div>
+                      </div>
+
+                      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                          <div class="bg-gray-50 p-4 rounded-lg">
+                              <h3 class="font-bold text-gray-800 mb-3">Performance Metrics</h3>
+                              <div class="space-y-2">
+                                  <div class="flex justify-between">
+                                      <span>Efficiency Score</span>
+                                      <span class="font-semibold">${report.performance.efficiency}%</span>
+                                  </div>
+                                  <div class="flex justify-between">
+                                      <span>Doctor Utilization</span>
+                                      <span class="font-semibold">${report.performance.utilization}%</span>
+                                  </div>
+                                  <div class="flex justify-between">
+                                      <span>No-Show Rate</span>
+                                      <span class="font-semibold">${report.performance.noShowRate}%</span>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="bg-gray-50 p-4 rounded-lg">
+                              <h3 class="font-bold text-gray-800 mb-3">Growth Trends</h3>
+                              <div class="space-y-2">
+                                  <div class="flex justify-between">
+                                      <span>Appointments</span>
+                                      <span class="font-semibold text-green-600">${report.trends.appointmentTrend}</span>
+                                  </div>
+                                  <div class="flex justify-between">
+                                      <span>Revenue</span>
+                                      <span class="font-semibold text-green-600">${report.trends.revenueTrend}</span>
+                                  </div>
+                                  <div class="flex justify-between">
+                                      <span>Satisfaction</span>
+                                      <span class="font-semibold text-green-600">${report.trends.patientSatisfactionTrend}</span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="bg-blue-50 p-4 rounded-lg">
+                          <h3 class="font-bold text-gray-800 mb-3">AI Recommendations</h3>
+                          <ul class="space-y-2">
+                              ${report.recommendations.map(rec => `<li class="flex items-start"><span class="text-blue-500 mr-2">•</span>${rec}</li>`).join('')}
+                          </ul>
+                      </div>
+                  </div>
+              `;
+
+        document.body.appendChild(modal);
+      }
+
+      setupRealtimeUpdates = () => { // Converted to arrow function
+        // Simulate real-time updates
+        setInterval(() => {
+          this.updateMetrics();
+        }, 30000); // Update every 30 seconds
+      }
+
+      updateMetrics = () => { // Converted to arrow function
+        // Simulate real-time metric updates
+        console.log('Metrics updated at:', new Date().toLocaleTimeString());
+      }
+    }
+
+    // Initialize the enhanced system when the page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      // Initialize navigation system first, as MedicalPracticeSystem depends on its mockData
+      window.navigation = new MedicalAppNavigation();
+
+      // Then initialize the medical practice system, passing the mockData
+      window.medicalSystem = new MedicalPracticeSystem(window.navigation.mockData);
+
+      // Initialize UI manager
+      window.uiManager = new UIManager(window.medicalSystem);
+
+      console.log('Enhanced Medical Practice Management System Ready');
+    });
+  </script>
+</body>
+
+</html>
