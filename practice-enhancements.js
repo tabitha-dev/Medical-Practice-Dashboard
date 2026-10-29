@@ -5,6 +5,7 @@
   const pages={dashboard:'Practice overview',patients:'Patient directory',appointments:'Appointments',booking:'Booking preview',billing:'Billing & collections',settings:'Practice settings', 'help-docs':'Help & documentation'};
   const morePages=new Set(['booking','settings','help-docs']);
   let restoreFocus=null;
+  let initAttempts=0;
   function closeMore(restore=false){
     const panel=el('mp-mobile-more'),trigger=el('mp-more-btn');if(!panel||!trigger)return;
     const wasOpen=!panel.hidden;panel.hidden=true;trigger.setAttribute('aria-expanded','false');
@@ -73,7 +74,8 @@
   function enhance(){
     el('mp-year').textContent=String(new Date().getFullYear());
     const navigation=window.navigation;
-    if(!navigation)return;
+    // window.navigation may initially be the browser Navigation API, not the demo instance.
+    if(typeof navigation?.showPage!=='function'){if(initAttempts++<20)setTimeout(enhance,100);return;}
     const original=navigation.showPage.bind(navigation);
     navigation.showPage=function(page,...args){original(page,...args);if(navigation.pages[page])renderExtras(page);};
     document.querySelectorAll('#mp-sidebar [onclick*="showPage"]').forEach(link=>{
