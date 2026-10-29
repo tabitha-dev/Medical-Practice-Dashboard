@@ -192,3 +192,5 @@ body>div.relative.flex.size-full{display:flex!important;flex-direction:column!im
 #settings-tabs,#appointment-views-tabs{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;gap:clamp(10px,1.6vw,28px)}
 #settings-tabs a,#appointment-views-tabs a{flex:0 0 auto;min-height:45px;text-decoration:none}
 #mp-advanced-analytics{min-height:45px!important}
+
+@media(max-width:767px){.mp-mobile-heading small{color:#4e6677!important}}
