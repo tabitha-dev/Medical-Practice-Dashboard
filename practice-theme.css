@@ -180,3 +180,15 @@ body>div.relative.flex.size-full{display:flex!important;flex-direction:column!im
  #mp-advanced-analytics svg{width:16px!important;height:16px!important;margin-right:6px!important}
  .mp-demo-banner a{white-space:nowrap}
 }
+
+/* WCAG contrast and compact action targets across generated legacy tables. */
+#mp-sidebar .mp-brand small{color:#4b6575!important}
+#mp-sidebar .mp-sidebar-title{color:#456276!important}
+#main-content button.text-green-600{color:#146f3e!important;font-weight:800;min-height:35px;min-width:38px}
+#main-content button.text-yellow-600{color:#835600!important;font-weight:800}
+#main-content button.text-red-500,#main-content button.text-red-600{color:#9f2636!important;font-weight:800}
+#main-content :is(input,select,textarea):focus-visible{outline-offset:2px!important}
+#main-content .overflow-x-auto,#main-content .overflow-hidden:has(table){scrollbar-color:#89aab9 #e6eff3}
+#settings-tabs,#appointment-views-tabs{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;gap:clamp(10px,1.6vw,28px)}
+#settings-tabs a,#appointment-views-tabs a{flex:0 0 auto;min-height:45px;text-decoration:none}
+#mp-advanced-analytics{min-height:45px!important}
