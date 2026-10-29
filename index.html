@@ -439,7 +439,7 @@
           if (pageId === 'settings') {
             this.currentSettingsTab = 'practice'; // Default to practice info
             // Directly call renderSettingsTab without going through showPage again
-            this.renderSettingsTab(this.currentSettingsTab);
+            this.switchSettingsTab(this.currentSettingsTab);
           }
           // Initialize appointments view if on appointments page
           if (pageId === 'appointments') {
