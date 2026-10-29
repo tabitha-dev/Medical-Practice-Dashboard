@@ -6,6 +6,11 @@
   const morePages=new Set(['booking','settings','help-docs']);
   let restoreFocus=null;
   let initAttempts=0;
+  let navigationFromHistory=false;
+  function pageFromHash(){
+    const fragment=decodeURIComponent(window.location.hash.slice(1));
+    return Object.prototype.hasOwnProperty.call(pages,fragment)?fragment:null;
+  }
   function closeMore(restore=false){
     const panel=el('mp-mobile-more'),trigger=el('mp-more-btn');if(!panel||!trigger)return;
     const wasOpen=!panel.hidden;panel.hidden=true;trigger.setAttribute('aria-expanded','false');
@@ -41,6 +46,8 @@
     });
     document.querySelectorAll('#settings-tabs a[onclick],#appointment-views-tabs a[onclick]').forEach(tab=>{
       tab.setAttribute('role','button');tab.tabIndex=0;
+      const selected=tab.closest('#settings-tabs')?window.navigation?.currentSettingsTab:window.navigation?.currentAppointmentView;
+      tab.setAttribute('aria-pressed',String(tab.getAttribute('onclick')?.includes("'"+selected+"'")===true));
       if(tab.dataset.keyboardBound)return;
       tab.dataset.keyboardBound='true';
       tab.addEventListener('keydown',event=>{
@@ -66,8 +73,11 @@
       // Preserve the legacy dashboard KPI header and actions below the hero.
     } else {
       const bar=document.createElement('div');bar.className='mp-page-heading';
-      const label=document.createElement('strong');label.textContent='PRACTICE / '+pages[page].toUpperCase();
-      const note=document.createElement('span');note.className='mp-page-label';note.textContent='Illustrative workflow';bar.append(label,note);banner.after(bar);
+      const heading=document.createElement('div');heading.className='mp-page-heading-text';
+      const kicker=document.createElement('span');kicker.className='mp-page-kicker';kicker.textContent='PRACTICE / '+pages[page].toUpperCase();
+      const title=document.createElement('h1');title.className='mp-page-title';title.textContent=pages[page];
+      heading.append(kicker,title);
+      const note=document.createElement('span');note.className='mp-page-label';note.textContent='Illustrative workflow';bar.append(heading,note);banner.after(bar);
     }
     document.title=(page==='dashboard'?'Medical Practice Dashboard':pages[page]+' | Medical Practice Dashboard')+' — Interactive Demo';
     setNav(page);closeMore();repairFormNames();
@@ -106,7 +116,22 @@
     if(settingsOriginal)navigation.switchSettingsTab=function(tab,...args){settingsOriginal(tab,...args);repairFormNames();};
     const viewsOriginal=navigation.switchView?.bind(navigation);
     if(viewsOriginal)navigation.switchView=function(view,...args){viewsOriginal(view,...args);repairFormNames();};
-    navigation.showPage=function(page,...args){original(page,...args);if(navigation.pages[page])renderExtras(page);};
+    navigation.showPage=function(page,...args){
+      if(!navigation.pages[page])return;
+      const previous=navigation.currentPage;
+      original(page,...args);
+      renderExtras(page);
+      if(!navigationFromHistory&&previous!==page&&window.location.hash!=='#'+page){
+        window.history.pushState({medopsPage:page},'','#'+page);
+      }
+    };
+    window.addEventListener('popstate',()=>{
+      const route=pageFromHash()||'dashboard';
+      if(route===navigation.currentPage)return;
+      navigationFromHistory=true;
+      try{navigation.showPage(route);}finally{navigationFromHistory=false;}
+      el('main-content')?.focus({preventScroll:true});
+    });
     document.querySelectorAll('#mp-sidebar [onclick*="showPage"]').forEach(link=>{
       link.setAttribute('role','link');link.tabIndex=0;
       link.addEventListener('keydown',event=>{
@@ -129,7 +154,8 @@
     window.showCustomConfirm=function(message){
       if(window.confirm(String(message)))showAccessibleNotice('Demo only: no actual practice record, user account or integration was changed.');
     };
-    navigation.showPage('dashboard');
+    navigationFromHistory=true;
+    try{navigation.showPage(pageFromHash()||'dashboard');}finally{navigationFromHistory=false;}
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
 })();
