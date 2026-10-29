@@ -1,0 +1,10 @@
+# Medical Practice Dashboard — MedOps Practice Studio
+
+Website: https://tabitha-dev.github.io/Medical-Practice-Dashboard/
+Source: https://github.com/tabitha-dev/Medical-Practice-Dashboard
+
+This is an independent frontend portfolio demonstration of medical practice operations, developed with HTML, JavaScript and Tailwind CSS. Visuals showcase appointment scheduling, synthetic patient directories, sample billing records, practice metrics, mock analytics and settings interfaces.
+
+Important: all patient and practice records are synthetic; no protected health information is present. No connected EHR, real healthcare records, patient scheduling backend, invoice delivery, payment processing or verified integrations are operated by this static GitHub Pages demonstration. Figures may change across page loads, and some actions show demonstration feedback only.
+
+Accessibility and search: responsive navigation, semantic demo explanations and FAQs, structured WebApplication metadata, social image, sitemap, robots.txt and keyboard-accessible demo notices. A full manual WCAG 2.2 AA audit remains outstanding. No claim of HIPAA compliance or clinical validity should be inferred from frontend markup.
