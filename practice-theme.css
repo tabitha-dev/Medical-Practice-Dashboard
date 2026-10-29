@@ -194,3 +194,12 @@ body>div.relative.flex.size-full{display:flex!important;flex-direction:column!im
 #mp-advanced-analytics{min-height:45px!important}
 
 @media(max-width:767px){.mp-mobile-heading small{color:#4e6677!important}}
+
+/* Minimum readable auxiliary labels and mobile navigation text. */
+.mp-hero-eyebrow,.mp-section-eyebrow,.mp-sidebar-title{font-size:11px!important}
+#mp-sidebar .mp-brand small{font-size:12px}
+@media(max-width:767px){
+ .mp-mobile-heading small{font-size:11px}
+ .mp-demo-banner strong{font-size:11px}
+ #mp-mobile-nav button{font-size:11px!important}
+}
