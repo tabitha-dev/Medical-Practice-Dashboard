@@ -8,8 +8,23 @@
   <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
     href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
 
-  <title>Medical IT Solutions - Dashboard</title>
-  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+  <title>Medical Practice Dashboard | Patient Flow, Scheduling & Billing Demo</title>
+  <meta name="description" content="Explore a responsive medical practice operations dashboard with illustrative scheduling, patient lists, billing, analytics and workflow interactions. Synthetic demo data only.">
+  <link rel="canonical" href="https://tabitha-dev.github.io/Medical-Practice-Dashboard/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#f4f7fb">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Medical Practice Dashboard | Healthcare Operations UI">
+  <meta property="og:description" content="An interactive, responsive healthcare practice management demonstration featuring synthetic patient records, schedules, and revenue analytics.">
+  <meta property="og:url" content="https://tabitha-dev.github.io/Medical-Practice-Dashboard/">
+  <meta property="og:image" content="https://tabitha-dev.github.io/Medical-Practice-Dashboard/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MedOps medical practice dashboard UI with illustrative operational charts and sample-data label.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Medical Practice Dashboard","url":"https://tabitha-dev.github.io/Medical-Practice-Dashboard/","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"description":"An interactive frontend demonstration of healthcare practice management, appointment scheduling, synthetic patient records, billing workflows and practice analytics. Not a production EHR or billing service.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Practice overview","Synthetic patient list","Illustrative appointment scheduling","Demo billing and payments","Practice analytics visualizations"]}</script>
+  <link rel="stylesheet" href="./practice-theme.css" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <style>
@@ -85,14 +100,17 @@
 </head>
 
 <body>
+  <a class="mp-skip" href="#main-content">Skip to dashboard content</a>
+  <div class="mp-sr-only" id="mp-live" aria-live="polite" role="status"></div>
   <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
     style='font-family: Inter, "Noto Sans", sans-serif;'>
     <div class="layout-container flex h-full grow flex-col">
-      <div class="gap-1 px-6 flex flex-1 justify-center py-5">
-        <div class="layout-content-container flex flex-col w-80">
+      <div id="mp-workspace" class="gap-1 px-6 flex flex-1 justify-center py-5">
+        <aside id="mp-sidebar" class="layout-content-container flex flex-col w-80">
           <div class="flex h-full min-h-[700px] flex-col justify-between bg-white p-4">
             <div class="flex flex-col gap-4">
-              <h1 class="text-[#111518] text-base font-medium leading-normal">Medical IT Solutions</h1>
+              <div class="mp-brand"><span class="mp-brand-mark" aria-hidden="true">✚</span><span><strong>Med<span>Ops</span></strong><small>Practice Studio</small></span></div>
+              <p class="mp-sidebar-title">WORKSPACE</p>
               <div class="flex flex-col gap-2">
                 <div class="flex items-center gap-3 px-3 py-2 active-page rounded-lg cursor-pointer"
                   onclick="showPage('dashboard')">
@@ -184,15 +202,37 @@
               </div>
             </div>
           </div>
-        </div>
+        </aside>
 
         <!-- Main Content Area -->
-        <div id="main-content" class="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <main id="main-content" tabindex="-1" class="layout-content-container flex flex-col max-w-[960px] flex-1">
           <!-- Content will be loaded here by JavaScript -->
-        </div>
+        </main>
       </div>
     </div>
   </div>
+  <nav id="mp-mobile-nav" aria-label="Mobile practice navigation">
+    <button type="button" data-page="dashboard"><span aria-hidden="true">◫</span>Overview</button>
+    <button type="button" data-page="patients"><span aria-hidden="true">♧</span>Patients</button>
+    <button type="button" data-page="appointments"><span aria-hidden="true">▦</span>Schedule</button>
+    <button type="button" data-page="billing"><span aria-hidden="true">▤</span>Billing</button>
+    <button type="button" id="mp-more-btn" aria-expanded="false" aria-controls="mp-mobile-more"><span aria-hidden="true">•••</span>More</button>
+  </nav>
+  <div id="mp-mobile-more" hidden>
+    <button type="button" data-page="booking">✚ Book demo appointment</button>
+    <button type="button" data-page="settings">⚙ Settings demo</button>
+    <button type="button" data-page="help-docs">? Help and docs</button>
+  </div>
+  <section id="mp-explainer" aria-labelledby="mp-explainer-title">
+    <div><span class="mp-section-eyebrow">ABOUT THIS PROJECT</span><h2 id="mp-explainer-title">Healthcare operations, designed with clarity.</h2><p>This interactive frontend project demonstrates a practice-management workflow using <strong>synthetic patients, appointments, invoices, and performance metrics</strong>. No patient information, insurance data, payments, appointment confirmations, EHR integrations, or actual emails are processed by this website.</p></div>
+    <div class="mp-faq"><h3>Frequently asked questions</h3>
+      <details><summary>Does this dashboard use real medical records?</summary><p>No. Patient names, appointment histories, revenue and other operational figures are randomly generated demonstration data. Do not enter real protected health information into this public demo.</p></details>
+      <details><summary>Can I book a medical appointment here?</summary><p>No. Booking, check-in, billing and integrations are illustrative UI interactions. They do not write to a real medical database or send confirmations.</p></details>
+      <details><summary>Are the dashboard analytics live?</summary><p>No. Charts and practice KPIs are synthetic and may change when the page reloads. They do not describe a real clinic or an actual healthcare organization.</p></details>
+      <details><summary>Is this a production-ready healthcare system?</summary><p>No. The site does not provide authenticated accounts, a secure patient database, HIPAA safeguards, verified payment processing or actual EHR integrations. It is a frontend portfolio demonstration.</p></details>
+    </div>
+  </section>
+  <footer id="mp-footer"><span>© <span id="mp-year">2026</span> MedOps Practice Studio · Frontend demonstration</span><span>Sample data only · No medical records or payments</span><a href="https://github.com/tabitha-dev/Medical-Practice-Dashboard" rel="noopener noreferrer" target="_blank">View project source ↗</a></footer>
 
   <script>
     // Helper function to get a random date within a range (moved to global scope)
@@ -254,7 +294,7 @@
           const status = statuses[Math.floor(Math.random() * statuses.length)];
           const insurance = insurances[Math.floor(Math.random() * insurances.length)];
           const lastVisitDate = getRandomDate(new Date(2023, 0, 1), new Date()); // Use global getRandomDate
-          const nextAppointmentDate = status === 'Active' && Math.random() > 0.3 ? getRandomDate(new Date(), new Date(2025, 0, 1)).toISOString().split('T')[0] : null; // Use global getRandomDate
+          const nextAppointmentDate = status === 'Active' && Math.random() > 0.3 ? getRandomDate(new Date(), new Date(Date.now() + 180*86400000)).toISOString().split('T')[0] : null; // Use global getRandomDate
 
           return {
             id: i + 1,
@@ -277,7 +317,7 @@
           const statuses = ['Scheduled', 'Completed', 'Cancelled', 'No-Show', 'Rescheduled'];
           const durations = ['15 min', '30 min', '45 min', '60 min'];
 
-          const appointmentDate = getRandomDate(new Date(2025, 0, 1), new Date(2025, 11, 31)); // Use global getRandomDate
+          const appointmentDate = getRandomDate(new Date(Date.now()-90*86400000), new Date(Date.now()+90*86400000)); // Use global getRandomDate
           const status = statuses[Math.floor(Math.random() * statuses.length)];
 
           return {
@@ -340,7 +380,7 @@
             return {
               id: i + 1,
               name: `${firstName} ${lastName}`,
-              email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}${i}@medicalit.com`,
+              email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}${i}@example.com`,
               role: roles[Math.floor(Math.random() * roles.length)],
               status: status
             };
@@ -402,7 +442,7 @@
           if (pageId === 'settings') {
             this.currentSettingsTab = 'practice'; // Default to practice info
             // Directly call renderSettingsTab without going through showPage again
-            this.renderSettingsTab(this.currentSettingsTab);
+            this.switchSettingsTab(this.currentSettingsTab);
           }
           // Initialize appointments view if on appointments page
           if (pageId === 'appointments') {
@@ -424,7 +464,7 @@
                     <div class="flex flex-wrap justify-between gap-3 p-4">
                       <div class="flex min-w-72 flex-col gap-3">
                         <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Medical Practice Dashboard</p>
-                        <p class="text-[#637988] text-sm font-normal leading-normal">Comprehensive analytics and insights for your medical practice management.</p>
+                        <p class="text-[#637988] text-sm font-normal leading-normal">Explore illustrative scheduling, patient operations and practice analytics using synthetic sample data.</p>
                       </div>
                       <div class="flex gap-2">
                         <button class="btn-info" onclick="exportReport()">Export</button>
@@ -1236,7 +1276,7 @@
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                      <input type="email" value="contact@medicalit.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                      <input type="email" value="contact@example.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
                     <div class="md:col-span-2">
                       <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
@@ -1401,7 +1441,8 @@ Healthcare City, HC 12345</textarea>
       getIntegrationsContent = () => { // Converted to arrow function
         return `
                 <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <h3 class="text-xl font-bold text-gray-800 mb-6">Integrations</h3>
+                  <h3 class="text-xl font-bold text-gray-800 mb-2">Integrations (Demo)</h3>
+                  <p class="text-sm text-gray-600 mb-6">Illustrative status labels only; no external vendors, EHRs, payment gateways or messaging providers are actually connected.</p>
                   <div class="space-y-4">
                     ${this.mockData.integrations.map(integration => `
                       <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -1411,10 +1452,10 @@ Healthcare City, HC 12345</textarea>
                         </div>
                         <div>
                           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${integration.status === 'Connected' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                            ${integration.status}
+                            Demo: ${integration.status}
                           </span>
                           <button class="ml-3 ${integration.status === 'Connected' ? 'btn-danger' : 'btn-success'} px-3 py-1 text-sm" onclick="${integration.status === 'Connected' ? 'disconnectIntegration' : 'connectIntegration'}(${integration.id})">
-                            ${integration.status === 'Connected' ? 'Disconnect' : 'Connect'}
+                            ${integration.status === 'Connected' ? 'Preview disconnect' : 'Preview connect'}
                           </button>
                         </div>
                       </div>
@@ -1538,7 +1579,7 @@ Healthcare City, HC 12345</textarea>
                   <h3 class="text-xl font-bold text-gray-800 mb-6">Support & Contact</h3>
                   <div class="space-y-3 text-gray-700">
                     <p>If you cannot find the answer to your question in our FAQs or guides, please reach out to our support team.</p>
-                    <p class="font-semibold">Email: <a href="mailto:support@medicalit.com" class="text-blue-600 hover:underline">support@medicalit.com</a></p>
+                    <p class="font-semibold">Email: <a href="mailto:support@example.com" class="text-blue-600 hover:underline">support@example.com</a></p>
                     <p class="font-semibold">Phone: <span class="text-blue-600">(123) 456-7890</span></p>
                     <p>Our support team is available Monday to Friday, 9 AM - 5 PM EST.</p>
                   </div>
@@ -1617,7 +1658,7 @@ Healthcare City, HC 12345</textarea>
                         <div class="flex overflow-hidden rounded-xl border border-solid border-[#dce1e5]">
                           <div class="flex flex-1 flex-col">
                             <div class="flex justify-between p-4">
-                              <h2 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em]">January 2025</h2>
+                              <h2 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em]">${new Date().toLocaleDateString('en-US', {month: 'long', year: 'numeric'})}</h2>
                               <div class="flex gap-2">
                                 <button class="flex h-8 w-8 items-center justify-center">
                                   <div class="text-[#121516]" data-icon="CaretLeft" data-size="20px" data-weight="regular">
@@ -1749,20 +1790,20 @@ Healthcare City, HC 12345</textarea>
         return;
       }
 
-      showCustomAlert('Appointment confirmed! You will receive a confirmation email shortly.');
+      showCustomAlert('Demo only: no appointment was booked and no confirmation email was sent.');
     }
 
     // Additional interactive functions
     function exportReport() {
-      showCustomAlert('Analytics report exported successfully!');
+      showCustomAlert('Demo report preview only. No analytics file was generated.');
     }
 
     function refreshAnalytics() {
-      showCustomAlert('Analytics data refreshed!');
+      showCustomAlert('These metrics are generated for the demo on page load. Reload the page to generate a new sample.');
     }
 
     function exportSchedule() {
-      showCustomAlert('Schedule exported successfully!');
+      showCustomAlert('Demo preview only. No schedule file was generated.');
     }
 
     function editAppointment(id) {
@@ -1819,7 +1860,7 @@ Healthcare City, HC 12345</textarea>
     }
 
     function saveSettings() {
-      showCustomAlert('Settings saved successfully!');
+      showCustomAlert('Demo interaction only. Settings are not stored or saved.');
     }
 
     function resetSettings() {
@@ -1850,11 +1891,11 @@ Healthcare City, HC 12345</textarea>
 
     // Functions for Security
     function changePassword() {
-      showCustomAlert('Password change request sent.');
+      showCustomAlert('Demo only: no password request was sent or stored.');
     }
 
     function setup2FA() {
-      showCustomAlert('Initiating 2FA setup...');
+      showCustomAlert('Demo only: no two-factor authentication is connected.');
     }
 
     function viewFullActivityLog() {
@@ -2223,6 +2264,8 @@ Healthcare City, HC 12345</textarea>
                   </svg>
                   Advanced Analytics
               `;
+        analyticsButton.id='mp-advanced-analytics';
+        analyticsButton.setAttribute('aria-label','Open synthetic advanced practice analytics');
         analyticsButton.className = 'fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 flex items-center';
         analyticsButton.onclick = () => this.showAdvancedAnalytics();
         document.body.appendChild(analyticsButton);
@@ -2302,7 +2345,7 @@ Healthcare City, HC 12345</textarea>
                       </div>
 
                       <div class="bg-blue-50 p-4 rounded-lg">
-                          <h3 class="font-bold text-gray-800 mb-3">AI Recommendations</h3>
+                          <h3 class="font-bold text-gray-800 mb-3">Illustrative Recommendations (Not Clinical AI)</h3>
                           <ul class="space-y-2">
                               ${report.recommendations.map(rec => `<li class="flex items-start"><span class="text-blue-500 mr-2">•</span>${rec}</li>`).join('')}
                           </ul>
@@ -2310,7 +2353,19 @@ Healthcare City, HC 12345</textarea>
                   </div>
               `;
 
+        const priorFocus=document.activeElement;
+        modal.setAttribute('role','dialog');
+        modal.setAttribute('aria-modal','true');
+        modal.setAttribute('aria-label','Advanced practice analytics using synthetic demonstration data');
+        const dismiss=modal.querySelector('button');
+        dismiss?.setAttribute('aria-label','Close advanced analytics demo');
+        dismiss?.addEventListener('click',()=>priorFocus?.focus?.());
+        modal.addEventListener('keydown',event=>{
+          if(event.key==='Escape'){event.preventDefault();modal.remove();priorFocus?.focus?.();}
+          if(event.key==='Tab'){event.preventDefault();dismiss?.focus();}
+        });
         document.body.appendChild(modal);
+        dismiss?.focus();
       }
 
       setupRealtimeUpdates = () => { // Converted to arrow function
@@ -2340,6 +2395,7 @@ Healthcare City, HC 12345</textarea>
       console.log('Enhanced Medical Practice Management System Ready');
     });
   </script>
+  <script src="./practice-enhancements.js"></script>
 </body>
 
 </html>

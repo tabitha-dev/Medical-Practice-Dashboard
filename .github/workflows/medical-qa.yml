@@ -1,0 +1,33 @@
+name: MedOps responsive accessibility QA
+on:
+  push:
+    branches: [main,feature/medical-dashboard-modern-a11y-seo-20261029]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install playwright==1.57.0
+      - run: python -m playwright install --with-deps chromium
+      - run: npm install --no-save axe-core@4.10.3
+      - name: Run responsive and accessibility tests
+        run: |
+          python -m http.server 8000 >/tmp/medops-server.log 2>&1 &
+          python scripts/qa_responsive.py
+          python scripts/qa_accessibility.py
+      - name: Upload screenshots and QA results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: medical-dashboard-browser-qa
+          path: qa-output/
+          retention-days: 14
+          if-no-files-found: ignore
