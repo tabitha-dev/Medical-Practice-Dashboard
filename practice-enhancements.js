@@ -27,7 +27,9 @@
   }
   function renderExtras(page){
     const main=el('main-content');if(!main)return;
-    main.querySelectorAll(':scope > .mp-demo-banner,:scope > .mp-hero,:scope > .mp-page-heading').forEach(x=>x.remove());
+    main.querySelectorAll(':scope > .mp-mobile-heading,:scope > .mp-demo-banner,:scope > .mp-hero,:scope > .mp-page-heading').forEach(x=>x.remove());
+    const mobileHeader=document.createElement('div');mobileHeader.className='mp-mobile-heading';mobileHeader.innerHTML='<span class="mp-mobile-heading-mark" aria-hidden="true">✚</span><span><strong>MedOps <em>Practice Studio</em></strong><small>Illustrative healthcare operations</small></span>';
+    main.prepend(mobileHeader);
     const banner=document.createElement('div');banner.className='mp-demo-banner';
     const strong=document.createElement('strong');strong.textContent='SAMPLE DATA';
     const msg=document.createElement('p');msg.textContent='Portfolio demonstration · Synthetic patients, schedules and finances. No real EHR, booking or payment connection.';
