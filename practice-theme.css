@@ -166,3 +166,17 @@ body>div.relative.flex.size-full{display:flex!important;flex-direction:column!im
  #mp-mobile-nav button span{font-size:21px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important;transform:none!important}}
+
+/* Compact header on phones, and keep the analytics action clear of the bottom tab bar. */
+.mp-mobile-heading{display:none}
+#mp-advanced-analytics{z-index:85!important;box-shadow:0 13px 30px #21425b3a}
+@media(max-width:767px){
+ .mp-mobile-heading{display:flex;gap:10px;align-items:center;margin:0 0 13px;padding:2px 4px 1px;color:#17394f}
+ .mp-mobile-heading-mark{width:39px;height:39px;flex:none;display:grid;place-items:center;border-radius:12px;background:linear-gradient(140deg,#2e9caa,#1c6488);color:white;font-size:28px}
+ .mp-mobile-heading strong{font-size:19px;font-weight:900;letter-spacing:-.06em;display:block;line-height:1.1}
+ .mp-mobile-heading em{font-style:normal;color:#4d7080;font-size:11px;font-weight:750;letter-spacing:0;margin-left:3px}
+ .mp-mobile-heading small{font-size:10px;font-weight:650;color:#708696;display:block;margin-top:4px}
+ #mp-advanced-analytics{bottom:calc(88px + env(safe-area-inset-bottom))!important;right:11px!important;min-height:43px;padding:10px 12px!important;border-radius:12px!important;font-size:12px!important}
+ #mp-advanced-analytics svg{width:16px!important;height:16px!important;margin-right:6px!important}
+ .mp-demo-banner a{white-space:nowrap}
+}
