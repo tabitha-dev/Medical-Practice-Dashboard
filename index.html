@@ -1438,7 +1438,8 @@ Healthcare City, HC 12345</textarea>
       getIntegrationsContent = () => { // Converted to arrow function
         return `
                 <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <h3 class="text-xl font-bold text-gray-800 mb-6">Integrations</h3>
+                  <h3 class="text-xl font-bold text-gray-800 mb-2">Integrations (Demo)</h3>
+                  <p class="text-sm text-gray-600 mb-6">Illustrative status labels only; no external vendors, EHRs, payment gateways or messaging providers are actually connected.</p>
                   <div class="space-y-4">
                     ${this.mockData.integrations.map(integration => `
                       <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -1448,10 +1449,10 @@ Healthcare City, HC 12345</textarea>
                         </div>
                         <div>
                           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${integration.status === 'Connected' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                            ${integration.status}
+                            Demo: ${integration.status}
                           </span>
                           <button class="ml-3 ${integration.status === 'Connected' ? 'btn-danger' : 'btn-success'} px-3 py-1 text-sm" onclick="${integration.status === 'Connected' ? 'disconnectIntegration' : 'connectIntegration'}(${integration.id})">
-                            ${integration.status === 'Connected' ? 'Disconnect' : 'Connect'}
+                            ${integration.status === 'Connected' ? 'Preview disconnect' : 'Preview connect'}
                           </button>
                         </div>
                       </div>
@@ -2341,7 +2342,7 @@ Healthcare City, HC 12345</textarea>
                       </div>
 
                       <div class="bg-blue-50 p-4 rounded-lg">
-                          <h3 class="font-bold text-gray-800 mb-3">AI Recommendations</h3>
+                          <h3 class="font-bold text-gray-800 mb-3">Illustrative Recommendations (Not Clinical AI)</h3>
                           <ul class="space-y-2">
                               ${report.recommendations.map(rec => `<li class="flex items-start"><span class="text-blue-500 mr-2">•</span>${rec}</li>`).join('')}
                           </ul>
@@ -2349,7 +2350,19 @@ Healthcare City, HC 12345</textarea>
                   </div>
               `;
 
+        const priorFocus=document.activeElement;
+        modal.setAttribute('role','dialog');
+        modal.setAttribute('aria-modal','true');
+        modal.setAttribute('aria-label','Advanced practice analytics using synthetic demonstration data');
+        const dismiss=modal.querySelector('button');
+        dismiss?.setAttribute('aria-label','Close advanced analytics demo');
+        dismiss?.addEventListener('click',()=>priorFocus?.focus?.());
+        modal.addEventListener('keydown',event=>{
+          if(event.key==='Escape'){event.preventDefault();modal.remove();priorFocus?.focus?.();}
+          if(event.key==='Tab'){event.preventDefault();dismiss?.focus();}
+        });
         document.body.appendChild(modal);
+        dismiss?.focus();
       }
 
       setupRealtimeUpdates = () => { // Converted to arrow function
