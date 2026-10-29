@@ -22,7 +22,7 @@ async def main():
       except Exception:
         snapshot=await page.evaluate("""()=>({ready:document.readyState,hasNav:!!window.navigation,navType:typeof window.navigation?.showPage,main:document.querySelector('#main-content')?.outerHTML.slice(0,700),enhanced:[...document.scripts].some(x=>x.src.includes('practice-enhancements'))})""")
         print(json.dumps({"viewport":label,"pageErrors":errors,"consoleErrors":consoleErrors[-10:],"failedRequests":failed[-10:],"snapshot":snapshot},indent=2),flush=True)
-        await page.screenshot(path=str(OUT/"render-blocked-"+label+".png"))
+        await page.screenshot(path=str(OUT/("render-blocked-"+label+".png")))
         raise
       assert await page.locator(".mp-demo-banner").count()==1,(label,"demo notice")
       metrics=await page.evaluate("""() => ({viewport:innerWidth,root:document.documentElement.scrollWidth,body:document.body.scrollWidth,hero:document.querySelector('.mp-hero').getBoundingClientRect().width,css:!![...document.styleSheets].find(s=>s.href?.includes('practice-theme.css'))})""")
