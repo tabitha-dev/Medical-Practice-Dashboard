@@ -25,6 +25,29 @@
     const more=el('mp-more-btn');
     if(more){more.classList.toggle('is-active',morePages.has(page));if(morePages.has(page))more.setAttribute('aria-current','page');else more.removeAttribute('aria-current');}
   }
+  function repairFormNames(){
+    const names={patientSearchInput:'Search synthetic patients',patientStatusFilter:'Filter by patient status',patientInsuranceFilter:'Filter by insurance provider'};
+    document.querySelectorAll('#main-content input,#main-content select,#main-content textarea').forEach(input=>{
+      if(input.getAttribute('aria-label')||input.getAttribute('aria-labelledby')||input.labels?.length)return;
+      const parent=input.parentElement;
+      const nearby=parent?.querySelector('label')||input.previousElementSibling?.closest('label')||parent?.previousElementSibling;
+      let label=(nearby?.tagName==='LABEL'?nearby.textContent:'')?.trim();
+      if(!label)label=names[input.id]||input.placeholder||input.getAttribute('name');
+      if(!label&&input.type==='date')label='Choose appointment date';
+      if(!label&&input.type==='tel')label='Practice telephone number (demo)';
+      if(!label&&input.type==='email')label='Practice contact email (demo)';
+      if(!label)label=input.tagName==='SELECT'?'Select demo option':'Demo field';
+      input.setAttribute('aria-label',label.replace(/\s+/g,' ').slice(0,120));
+    });
+    document.querySelectorAll('#settings-tabs a[onclick],#appointment-views-tabs a[onclick]').forEach(tab=>{
+      tab.setAttribute('role','button');tab.tabIndex=0;
+      if(tab.dataset.keyboardBound)return;
+      tab.dataset.keyboardBound='true';
+      tab.addEventListener('keydown',event=>{
+        if(event.key==='Enter'||event.key===' '){event.preventDefault();tab.click();}
+      });
+    });
+  }
   function renderExtras(page){
     const main=el('main-content');if(!main)return;
     main.querySelectorAll(':scope > .mp-mobile-heading,:scope > .mp-demo-banner,:scope > .mp-hero,:scope > .mp-page-heading').forEach(x=>x.remove());
@@ -47,7 +70,7 @@
       const note=document.createElement('span');note.className='mp-page-label';note.textContent='Illustrative workflow';bar.append(label,note);banner.after(bar);
     }
     document.title=(page==='dashboard'?'Medical Practice Dashboard':pages[page]+' | Medical Practice Dashboard')+' — Interactive Demo';
-    setNav(page);closeMore();
+    setNav(page);closeMore();repairFormNames();
     announce(pages[page]+' opened. All records on this site are synthetic.');
   }
   function selectPage(page){
@@ -79,6 +102,10 @@
     // window.navigation may initially be the browser Navigation API, not the demo instance.
     if(typeof navigation?.showPage!=='function'){if(initAttempts++<20)setTimeout(enhance,100);return;}
     const original=navigation.showPage.bind(navigation);
+    const settingsOriginal=navigation.switchSettingsTab?.bind(navigation);
+    if(settingsOriginal)navigation.switchSettingsTab=function(tab,...args){settingsOriginal(tab,...args);repairFormNames();};
+    const viewsOriginal=navigation.switchView?.bind(navigation);
+    if(viewsOriginal)navigation.switchView=function(view,...args){viewsOriginal(view,...args);repairFormNames();};
     navigation.showPage=function(page,...args){original(page,...args);if(navigation.pages[page])renderExtras(page);};
     document.querySelectorAll('#mp-sidebar [onclick*="showPage"]').forEach(link=>{
       link.setAttribute('role','link');link.tabIndex=0;
