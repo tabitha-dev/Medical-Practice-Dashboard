@@ -29,6 +29,14 @@ Each section can be shared or bookmarked without a backend route:
 
 Browser Back and Forward navigation work between sections. Use invented details when exploring forms. No user-entered information is transmitted or persisted by this frontend.
 
+## Visual design and chart data
+
+The dashboard uses a restrained clinical operations theme with solid surfaces, high-contrast typography, and no decorative metric gradients. The original hard-coded appointment bars have been replaced with a twelve-week SVG trend calculated from synthetic appointment dates. Patient status proportions use the synthetic patient directory as their denominator.
+
+The overview KPIs now reflect actual synthetic arrays in the running session. Billing totals are derived from those same sample invoices; the billing table's text, status and date filters are interactive. Data is regenerated in memory when the page reloads.
+
+Charts include inline labels, accessible SVG descriptions, keyboard-scrollable narrow views and a weekly-count data table. The chart system is local HTML, CSS and JavaScript, with no additional charting dependency. Any OpenArt illustration exploration is separate from numerical graphics; generated imagery must never represent measured practice performance.
+
 ## Technology
 
 - HTML5, CSS and vanilla JavaScript
