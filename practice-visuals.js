@@ -90,7 +90,7 @@
     const trend=weeklyCounts(appointments);
     board.innerHTML=
       '<div class="mp-dashboard-top"><div><span class="mp-eyebrow">OPERATIONS SNAPSHOT</span><h2>Sample practice activity</h2><p>Every figure below is derived from this visit’s randomly generated records.</p></div>'+
-      '<div class="mp-dashboard-actions"><button type="button" class="mp-secondary-action" onclick="location.reload()">Regenerate sample</button><button type="button" class="mp-primary-action" onclick="showPage(\'appointments\')">View appointments</button></div></div>'+
+      '<div class="mp-dashboard-actions"><button type="button" class="mp-secondary-action" onclick="location.reload()">Regenerate sample</button><button type="button" class="mp-primary-action" onclick="showPage(\'appointments\')">View appointments</button><button type="button" class="mp-secondary-action" onclick="window.uiManager?.showAdvancedAnalytics?.()">Analytics preview</button></div></div>'+
       '<div class="mp-metric-grid" role="list" aria-label="Sample practice key performance indicators">'+
       metric('Appointments in dataset',appointments.length,'All statuses · synthetic visits')+
       metric('Upcoming scheduled',scheduled,'Scheduled dates from today onward')+
