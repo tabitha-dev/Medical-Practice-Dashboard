@@ -107,6 +107,12 @@
       mixChart(patients)+'</section></div>'+
       '<section class="mp-viz-card mp-visits-card" aria-labelledby="mp-visits-title"><div class="mp-card-head"><div><span class="mp-eyebrow">SCHEDULING</span><h3 id="mp-visits-title">Upcoming sample visits</h3></div><button class="mp-text-action" type="button" onclick="showPage(\'appointments\')">See schedule</button></div>'+
       '<p class="mp-card-description">Scheduled examples only, sorted by visit date. No real appointments or patient data.</p>'+visitList(appointments)+'</section>';
+    // The historic dashboard template has a mismatched closing div, which may
+    // leave its old Recent Activity card outside #dashboard-page. Remove it.
+    [...document.querySelectorAll('#main-content h3')].filter(h=>h.textContent.trim()==='Recent Activity').forEach(h=>{
+      const legacy=h.closest('div.p-4');
+      if(legacy && !board.contains(legacy))legacy.remove();
+    });
     board.dataset.sampleAppointments=String(appointments.length);
     board.dataset.samplePatients=String(patients.length);
   }
