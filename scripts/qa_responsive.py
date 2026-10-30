@@ -44,6 +44,10 @@ async def main():
       await page.locator("#main-content").get_by_text("Patients",exact=False).first.wait_for()
       assert await page.locator("#patientSearchInput").is_visible(),(label,"patient search missing")
       assert await page.locator(".mp-page-heading h1").inner_text()=="Patient directory",(label,"missing semantic heading")
+      assert await page.locator(".mp-page-heading[data-art='patients']").count()==1,(label,"patient artwork missing")
+      if label=="desktop":
+        art_url=await page.locator(".mp-page-heading").evaluate("el=>el.style.getPropertyValue('--mp-page-art')")
+        assert "cdn.openart.ai" in art_url,(label,"OpenArt patient artwork not linked")
       assert page.url.endswith("#patients"),(label,"patient route not shareable",page.url)
       await page.locator("#patientSearchInput").fill("zzzz-no-such-patient")
       await page.locator("#patientSearchInput").press("Tab")
@@ -60,6 +64,7 @@ async def main():
       await page.go_forward()
       await page.wait_for_function("window.navigation.currentPage==='appointments'")
       assert await page.locator(".mp-page-heading h1").inner_text()=="Appointments",(label,"appointments heading")
+      assert await page.locator(".mp-page-heading[data-art='appointments']").count()==1,(label,"appointment artwork missing")
       await page.evaluate("() => {window.__testAppointments=window.navigation.mockData.appointments;window.navigation.mockData.appointments=[];window.navigation.renderAppointmentsView('daily')}")
       await page.locator('#appointments-dynamic-content button[onclick^="editAppointment"]').first.click()
       assert await page.locator("#mp-accessible-notice").is_visible(),(label,"fallback appointment action failed")
@@ -71,6 +76,7 @@ async def main():
         await page.locator("#mp-sidebar [onclick*=\"'billing'\"]").first.click()
       assert "Billing" in await page.locator("#main-content").inner_text(),(label,"billing view")
       assert await page.locator(".mp-page-heading h1").inner_text()=="Billing & collections",(label,"billing heading")
+      assert await page.locator(".mp-page-heading[data-art='billing']").count()==1,(label,"billing artwork missing")
       assert await page.locator(".mp-billing-result-count").is_visible(),(label,"billing filters not active")
       invoice_search=page.locator('input[placeholder="Search invoices..."]')
       await invoice_search.fill("zzzz-no-such-invoice")
@@ -87,6 +93,7 @@ async def main():
         await page.locator("#mp-sidebar [onclick*=\"'booking'\"]").first.click()
       assert "Book" in await page.locator("#main-content").inner_text(),(label,"booking")
       assert await page.locator(".mp-page-heading h1").inner_text()=="Booking preview",(label,"booking heading")
+      assert await page.locator(".mp-page-heading[data-art='booking']").count()==1,(label,"booking artwork missing")
       radios=page.locator('#main-content input[type="radio"]')
       assert await radios.count()>=3,(label,"visit choice circles not found")
       geom=await radios.first.evaluate("""el => ({w:el.getBoundingClientRect().width,h:el.getBoundingClientRect().height,ratio:getComputedStyle(el).aspectRatio,shrink:getComputedStyle(el).flexShrink,radius:getComputedStyle(el).borderRadius})""")
@@ -110,6 +117,14 @@ async def main():
       assert scroll_layout["workspaceBottom"]>=scroll_layout["lastBottom"]-3,(label,"lower dashboard clipped",scroll_layout)
       assert await page.locator(".mp-visits-card").count()==1,(label,"upcoming visits panel missing")
       assert await page.locator("#dashboard-page .mp-line-svg").is_visible(),(label,"appointment line chart missing")
+      assert await page.locator("#dashboard-page .mp-report-banner img").count()==1,(label,"OpenArt analytics illustration missing")
+      if label=="desktop":
+        links=await page.evaluate("""() => {
+          const art=document.querySelector('#dashboard-page .mp-report-banner img');
+          const empty=getComputedStyle(document.documentElement).getPropertyValue('--mp-empty-art');
+          return {analytics:art?.src,empty};
+        }""")
+        assert "cdn.openart.ai" in links["analytics"] and "cdn.openart.ai" in links["empty"],(label,"OpenArt assets unlinked",links)
       assert await page.locator("#dashboard-page .mp-donut-svg").is_visible(),(label,"patient status donut missing")
       assert await page.locator("#dashboard-page .mp-metric").count()==4,(label,"KPI grid missing")
       assert await page.locator("#main-content h3",has_text="Recent Activity").count()==0,(label,"duplicate legacy dashboard card")
