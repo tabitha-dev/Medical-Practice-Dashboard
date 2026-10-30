@@ -1642,25 +1642,25 @@ Healthcare City, HC 12345</textarea>
                           />
                         </label>
                       </div>
-                      <h3 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Visit Type</h3>
+                      <h3 id="mp-visit-type-heading" class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Visit Type</h3>
                       <div class="p-4">
-                        <div class="flex flex-col gap-3">
+                        <div class="flex flex-col gap-3" role="radiogroup" aria-labelledby="mp-visit-type-heading">
                           <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
-                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" value="General Consultation" />
                             <div class="flex grow cursor-pointer flex-col">
                               <p class="text-[#121516] text-sm font-medium leading-normal">General Consultation</p>
                               <p class="text-[#6a7881] text-sm font-normal leading-normal">Routine health checkup and basic medical consultation</p>
                             </div>
                           </label>
                           <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
-                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" value="Follow-up Appointment" />
                             <div class="flex grow cursor-pointer flex-col">
                               <p class="text-[#121516] text-sm font-medium leading-normal">Follow-up Appointment</p>
                               <p class="text-[#6a7881] text-sm font-normal leading-normal">Follow-up on previous treatment or ongoing care</p>
                             </div>
                           </label>
                           <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
-                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" value="Specialist Referral" />
                             <div class="flex grow cursor-pointer flex-col">
                               <p class="text-[#121516] text-sm font-medium leading-normal">Specialist Referral</p>
                               <p class="text-[#6a7881] text-sm font-normal leading-normal">Consultation with a medical specialist</p>
