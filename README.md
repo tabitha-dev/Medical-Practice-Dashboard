@@ -17,6 +17,18 @@ A modernized **frontend demonstration** of healthcare practice operations. Explo
 - **Settings and help:** mock settings panels, integration cards and documentation views. Connected statuses do **not** indicate actual integration.
 - **Responsive navigation:** persistent desktop sidebar, mobile bottom navigation with an accessible More menu, focus indicators and modal interactions.
 
+## Direct links to demo views
+
+Each section can be shared or bookmarked without a backend route:
+
+- [Overview](https://tabitha-dev.github.io/Medical-Practice-Dashboard/#dashboard)
+- [Patient directory](https://tabitha-dev.github.io/Medical-Practice-Dashboard/#patients)
+- [Appointments](https://tabitha-dev.github.io/Medical-Practice-Dashboard/#appointments)
+- [Booking preview](https://tabitha-dev.github.io/Medical-Practice-Dashboard/#booking)
+- [Billing](https://tabitha-dev.github.io/Medical-Practice-Dashboard/#billing)
+
+Browser Back and Forward navigation work between sections. Use invented details when exploring forms. No user-entered information is transmitted or persisted by this frontend.
+
 ## Technology
 
 - HTML5, CSS and vanilla JavaScript
