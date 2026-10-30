@@ -2,13 +2,13 @@
 (() => {
   'use strict';
   const arts={
-    patients:'',
-    appointments:'',
-    booking:'',
-    billing:'',
-    analytics:'',
-    empty:''
-  };
+    "patients": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793325475265_5f104b50_1793325475290_ca50e9a8.svg",
+    "appointments": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793325479293_cb4174b4_1793325479311_453ea173.svg",
+    "booking": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793325479293_cb4174b4_1793325479311_453ea173.svg",
+    "billing": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793325480269_74fce965_1793325480284_2d391167.svg",
+    "analytics": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793325483198_3ed6892b_1793325483418_abb6f9d5.svg",
+    "empty": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793325488108_68149ab8_1793325488121_10c4d19d.svg"
+};
   const paths={
     House:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M9 21v-8h6v8"/>',
     Users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
@@ -53,8 +53,6 @@
     });
   }
   function patientEmpty(){
-    const rows=document.querySelectorAll('#main-content #patientSearchInput ~ *');
-    void rows; // the legacy filters re-render the table; inspect only the new result.
     document.querySelectorAll('#main-content table tbody tr').forEach(row=>{
       if(/No patients found matching your criteria/i.test(row.textContent||''))row.classList.add('mp-empty-row');
     });
