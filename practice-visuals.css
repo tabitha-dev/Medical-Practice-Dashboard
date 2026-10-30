@@ -101,3 +101,12 @@ body,#main-content{background:var(--mp-canvas)!important}
 #main-content p.text-green-600{color:#176542!important}
 .mp-billing-result-count{font-size:12px;color:#385c6a;font-weight:700;padding:12px 17px;margin:0;border-bottom:1px solid #e2eaee}
 #main-content table tbody tr[hidden]{display:none!important}
+
+/* Keep the page as one document scroll surface; the original overflow-x-hidden
+   utility otherwise creates a nested y-scrollport and cuts off lower panels. */
+html,body{height:auto!important;min-height:100%;overflow-x:clip!important;overflow-y:visible!important}
+body>div.relative.flex.size-full{height:auto!important;min-height:100dvh!important;overflow-x:clip!important;overflow-y:visible!important}
+body>div.relative.flex.size-full>.layout-container{height:auto!important;overflow:visible!important}
+#mp-workspace,#main-content{height:auto!important;overflow:visible!important}
+/* Analytics lives in the overview action group instead of covering charts. */
+#mp-advanced-analytics{display:none!important}
