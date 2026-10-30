@@ -37,6 +37,8 @@ async def main():
         await page.locator("#mp-sidebar [onclick*=\"'patients'\"]").first.click()
       await page.locator("#main-content").get_by_text("Patients",exact=False).first.wait_for()
       assert await page.locator("#patientSearchInput").is_visible(),(label,"patient search missing")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Patient directory",(label,"missing semantic heading")
+      assert page.url.endswith("#patients"),(label,"patient route not shareable",page.url)
       await page.locator("#patientSearchInput").fill("zzzz-no-such-patient")
       await page.locator("#patientSearchInput").press("Tab")
       if width<768:
@@ -44,11 +46,23 @@ async def main():
       else:
         await page.locator("#mp-sidebar [onclick*=\"'appointments'\"]").first.click()
       assert await page.locator("#appointments-dynamic-content").count()==1,(label,"appointments view")
+      assert page.url.endswith("#appointments"),(label,"appointments hash",page.url)
+      await page.go_back()
+      await page.wait_for_function("window.navigation.currentPage==='patients'")
+      assert await page.locator("#patientSearchInput").is_visible(),(label,"back navigation")
+      await page.go_forward()
+      await page.wait_for_function("window.navigation.currentPage==='appointments'")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Appointments",(label,"appointments heading")
+      await page.evaluate("() => {window.navigation.mockData.appointments=[];window.navigation.renderAppointmentsView('daily')}")
+      await page.locator('#appointments-dynamic-content button[onclick^="editAppointment"]').first.click()
+      assert await page.locator("#mp-accessible-notice").is_visible(),(label,"fallback appointment action failed")
+      await page.locator("#mp-accessible-notice button").click()
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="billing"]').click()
       else:
         await page.locator("#mp-sidebar [onclick*=\"'billing'\"]").first.click()
       assert "Billing" in await page.locator("#main-content").inner_text(),(label,"billing view")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Billing & collections",(label,"billing heading")
       if width<768:
         await page.locator("#mp-more-btn").click()
         assert await page.locator("#mp-mobile-more").is_visible(),(label,"mobile More hidden")
@@ -56,6 +70,7 @@ async def main():
       else:
         await page.locator("#mp-sidebar [onclick*=\"'booking'\"]").first.click()
       assert "Book" in await page.locator("#main-content").inner_text(),(label,"booking")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Booking preview",(label,"booking heading")
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="dashboard"]').click()
       else:
