@@ -56,7 +56,7 @@
       consumed+=len;return item;
     }).join('');
     const labels=kinds.map(kind=>{
-      const count=patients.filter(p=>p.status===kind.key).length,pct=total?Math.round(count/total*100):0;
+      const count=patients.filter(p=>p.status===kind.key).length,pct=total?(count/total*100).toFixed(1):'0.0';
       return '<li><span class="mp-dot" style="background:'+kind.color+'"></span><span>'+kind.label+'</span><strong>'+count+' <small>('+pct+'%)</small></strong></li>';
     }).join('');
     return '<div class="mp-mix-layout"><svg class="mp-donut-svg" viewBox="0 0 200 200" role="img" aria-labelledby="mp-mix-svg-title mp-mix-svg-desc">'+
