@@ -4,6 +4,7 @@
   --mp-polish-teal:#147a75;
   --mp-polish-ink:#1b3444;
   --mp-polish-art-bg:#f4f8f8;
+  --mp-empty-art:url("https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793325488108_68149ab8_1793325488121_10c4d19d.svg");
 }
 #main-content input[type="radio"]{
   -webkit-appearance:none;appearance:none;
