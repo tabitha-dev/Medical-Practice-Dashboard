@@ -105,6 +105,13 @@ async def main():
       assert geom["shrink"]=="0",(label,"radio flex collapse",geom)
       await radios.first.check()
       assert await radios.first.is_checked(),(label,"radio selection broken")
+      states=await radios.evaluate_all("""els=>els.map(el=>({
+        checked:el.checked,color:getComputedStyle(el).backgroundColor,
+        image:getComputedStyle(el).backgroundImage,shadow:getComputedStyle(el).boxShadow
+      }))""")
+      assert sum(1 for state in states if state["checked"])==1,(label,"multiple visit types selected",states)
+      assert all(state["image"]=="none" for state in states),(label,"native radio imagery leaking",states)
+      assert all(state["color"]=="rgb(255, 255, 255)" and state["shadow"]=="none" for state in states if not state["checked"]),(label,"unchecked radio visually filled",states)
       if label in ("desktop","phone","small-phone"):
         await page.screenshot(path=str(OUT/(label+"-booking-radios.png")),full_page=False)
       if width<768:
