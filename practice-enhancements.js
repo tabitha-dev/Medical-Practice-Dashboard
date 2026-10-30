@@ -77,6 +77,8 @@
       heading.append(kicker,title);
       const note=document.createElement('span');note.className='mp-page-label';note.textContent='Illustrative workflow';bar.append(heading,note);banner.after(bar);
     }
+    // Keep branding above the sample notice and page hero on narrow screens.
+    main.prepend(mobileHeader);
     document.title=(page==='dashboard'?'Medical Practice Dashboard':pages[page]+' | Medical Practice Dashboard')+' — Interactive Demo';
     setNav(page);closeMore();repairFormNames();
     announce(pages[page]+' opened. All records on this site are synthetic.');
