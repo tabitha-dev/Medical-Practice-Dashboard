@@ -52,6 +52,8 @@ async def main():
       await page.locator("#patientSearchInput").fill("zzzz-no-such-patient")
       await page.locator("#patientSearchInput").press("Tab")
       assert await page.locator("#main-content .mp-empty-row").count()==1,(label,"illustrated patient empty state not available")
+      if label in ("desktop","phone"):
+        await page.screenshot(path=str(OUT/(label+"-patients-empty.png")),full_page=False)
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="appointments"]').click()
       else:
@@ -82,6 +84,8 @@ async def main():
       await invoice_search.fill("zzzz-no-such-invoice")
       assert (await page.locator(".mp-billing-result-count").inner_text()).startswith("0 of "),(label,"billing search filter failed")
       assert await page.locator("#mp-billing-empty").is_visible(),(label,"billing empty state not visible")
+      if label in ("desktop","phone"):
+        await page.screenshot(path=str(OUT/(label+"-billing-empty.png")),full_page=False)
       await invoice_search.fill("")
       assert (await page.locator(".mp-billing-result-count").inner_text()).startswith("300 of "),(label,"billing reset failed")
       assert await page.locator("#mp-billing-empty").is_hidden(),(label,"billing empty state remained after filter reset")
@@ -101,6 +105,8 @@ async def main():
       assert geom["shrink"]=="0",(label,"radio flex collapse",geom)
       await radios.first.check()
       assert await radios.first.is_checked(),(label,"radio selection broken")
+      if label in ("desktop","phone","small-phone"):
+        await page.screenshot(path=str(OUT/(label+"-booking-radios.png")),full_page=False)
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="dashboard"]').click()
       else:
