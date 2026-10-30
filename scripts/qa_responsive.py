@@ -125,6 +125,20 @@ async def main():
           return {analytics:art?.src,empty};
         }""")
         assert "cdn.openart.ai" in links["analytics"] and "cdn.openart.ai" in links["empty"],(label,"OpenArt assets unlinked",links)
+        image_validation=await page.evaluate("""async () => {
+          const urls=[
+            document.querySelector('#dashboard-page .mp-report-banner img')?.src,
+            'https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/file_1793325784638_ce2804eb'
+          ].filter(Boolean);
+          return await Promise.all(urls.map(src=>new Promise(resolve=>{
+            const i=new Image();
+            i.onload=()=>resolve({src,width:i.naturalWidth,height:i.naturalHeight,loaded:true});
+            i.onerror=()=>resolve({src,loaded:false});
+            i.src=src;
+          })));
+        }""")
+        print(json.dumps({"illustrationsLoaded":image_validation}),flush=True)
+        assert image_validation[0]["loaded"],(label,"analytics OpenArt asset failed to load",image_validation)
       assert await page.locator("#dashboard-page .mp-donut-svg").is_visible(),(label,"patient status donut missing")
       assert await page.locator("#dashboard-page .mp-metric").count()==4,(label,"KPI grid missing")
       assert await page.locator("#main-content h3",has_text="Recent Activity").count()==0,(label,"duplicate legacy dashboard card")
