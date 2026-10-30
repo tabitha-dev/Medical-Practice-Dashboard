@@ -327,14 +327,19 @@
           const durations = ['15 min', '30 min', '45 min', '60 min'];
 
           const appointmentDate = getRandomDate(new Date(Date.now()-90*86400000), new Date(Date.now()+90*86400000)); // Use global getRandomDate
-          const status = statuses[Math.floor(Math.random() * statuses.length)];
+          const isPast = formatLocalDate(appointmentDate) < formatLocalDate(new Date());
+          const statusPool = isPast ? ['Completed','Completed','Completed','Completed','No-Show','Cancelled','Rescheduled'] : ['Scheduled','Scheduled','Scheduled','Scheduled','Scheduled','Rescheduled','Cancelled'];
+          const status = statusPool[Math.floor(Math.random() * statusPool.length)];
+          const hour24 = 8 + Math.floor(Math.random() * 9);
+          const minute = ['00','15','30','45'][Math.floor(Math.random() * 4)];
+          const timeLabel = `${hour24 % 12 || 12}:${minute} ${hour24 < 12 ? 'AM' : 'PM'}`;
 
           return {
             id: i + 1,
             patient: randomPatient.name, // Use the name of the random patient
             doctor: doctors[Math.floor(Math.random() * doctors.length)],
             date: formatLocalDate(appointmentDate),
-            time: `${Math.floor(Math.random() * 10) + 8}:00 ${Math.random() > 0.5 ? 'AM' : 'PM'}`,
+            time: timeLabel,
             type: types[Math.floor(Math.random() * types.length)],
             status: status,
             duration: durations[Math.floor(Math.random() * durations.length)]
