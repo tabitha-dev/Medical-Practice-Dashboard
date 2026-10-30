@@ -110,3 +110,11 @@ body>div.relative.flex.size-full>.layout-container{height:auto!important;overflo
 #mp-workspace,#main-content{height:auto!important;overflow:visible!important}
 /* Analytics lives in the overview action group instead of covering charts. */
 #mp-advanced-analytics{display:none!important}
+
+/* OpenArt original commissioned vector illustration; decorative, never data. */
+#main-content .mp-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);align-items:center;overflow:hidden;background:#fff!important;min-height:230px}
+#main-content .mp-hero::after{content:"";display:block;align-self:stretch;min-height:224px;background-color:#f5f8f8;background-image:url("https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/image_1793321399697_6b2a2a40_1793321399732_f3e1f212.svg");background-repeat:no-repeat;background-size:cover;background-position:60% center;border-left:1px solid #e1eaed}
+#main-content .mp-hero .mp-hero-copy{position:relative;z-index:1;max-width:720px}
+@media(max-width:960px){#main-content .mp-hero{grid-template-columns:minmax(0,1fr) 34%}#main-content .mp-hero::after{min-height:190px;background-position:70% center}}
+@media(max-width:600px){#main-content .mp-hero{display:block;min-height:0}#main-content .mp-hero::after{min-height:125px;border-left:0;border-top:1px solid #e1eaed;background-size:cover;background-position:center 49%}#main-content .mp-hero .mp-hero-copy{padding-bottom:21px}}
+@media(prefers-reduced-data:reduce){#main-content .mp-hero::after{background-image:none!important;min-height:0!important}}
