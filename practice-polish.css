@@ -1,0 +1,140 @@
+/* MedOps 2026: accessible circular controls, consistent icon sizing and editorial art. */
+:root{
+  --mp-polish-border:#dce6e8;
+  --mp-polish-teal:#147a75;
+  --mp-polish-ink:#1b3444;
+  --mp-polish-art-bg:#f4f8f8;
+}
+#main-content input[type="radio"]{
+  -webkit-appearance:none;appearance:none;
+  display:inline-grid!important;place-content:center;
+  inline-size:22px!important;block-size:22px!important;
+  min-inline-size:22px!important;min-block-size:22px!important;
+  max-inline-size:22px!important;max-block-size:22px!important;
+  flex:0 0 22px!important;align-self:center;
+  aspect-ratio:1/1!important;border-radius:50%!important;
+  border:2px solid #697f8b!important;background:#fff!important;
+  box-shadow:none!important;margin:0!important;
+  color:var(--mp-polish-teal)!important;vertical-align:middle;
+}
+#main-content input[type="radio"]::before{
+  content:"";width:10px;height:10px;min-width:10px;min-height:10px;
+  border-radius:50%;background:var(--mp-polish-teal);transform:scale(0);
+  transition:transform 120ms ease-out;
+}
+#main-content input[type="radio"]:checked{border-color:var(--mp-polish-teal)!important}
+#main-content input[type="radio"]:checked::before{transform:scale(1)}
+#main-content input[type="radio"]:focus-visible{
+  outline:3px solid #be792d!important;outline-offset:3px!important
+}
+#main-content input[type="radio"]:disabled{opacity:.55;cursor:not-allowed}
+#main-content label:has(> input[type="radio"]:checked){
+  border-color:#16847c!important;background:#f1f8f6!important
+}
+#main-content label:has(> input[type="radio"]){min-width:0;cursor:pointer}
+#main-content label:has(> input[type="radio"])>div{min-width:0}
+@media(prefers-reduced-motion:reduce){#main-content input[type="radio"]::before{transition:none}}
+@media(forced-colors:active){
+  #main-content input[type="radio"]{appearance:auto!important;-webkit-appearance:radio!important;border:revert!important;background:revert!important}
+  #main-content input[type="radio"]::before{content:none}
+}
+/* Every circle keeps a true 1:1 aspect, including flexible patient avatars. */
+#main-content .rounded-full.w-10.h-10,
+#main-content .rounded-full.w-8.h-8,
+#main-content .rounded-full.w-12.h-12,
+#main-content .rounded-full.w-6.h-6,
+#dashboard-page .mp-dot{
+  aspect-ratio:1/1!important;flex-shrink:0!important;min-width:revert;
+}
+#dashboard-page .mp-dot{width:10px!important;height:10px!important;min-width:10px!important;min-height:10px!important}
+/* One crisp coherent stroke family for desktop and handheld navigation. */
+#mp-sidebar [data-icon]{
+  inline-size:22px;block-size:22px;min-inline-size:22px;
+  display:inline-flex;align-items:center;justify-content:center;flex:none!important;
+}
+#mp-sidebar [data-icon] svg,.mp-polish-icon{
+  inline-size:21px!important;block-size:21px!important;max-width:100%;
+  display:block;fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round;flex:none;
+}
+#mp-sidebar [data-icon] svg{width:21px!important;height:21px!important}
+#mp-mobile-nav [aria-hidden="true"] svg,#mp-mobile-more svg{
+  inline-size:20px;block-size:20px;stroke-width:1.9;
+  vertical-align:middle;flex:none
+}
+#mp-mobile-nav button{gap:5px;min-width:0}
+#mp-mobile-nav button [aria-hidden="true"]{display:grid;place-items:center;min-width:20px;line-height:1}
+#mp-mobile-more button{display:flex;align-items:center;gap:10px}
+.mp-brand-mark,.mp-mobile-heading-mark{
+  font-size:0!important;display:grid;place-items:center;overflow:hidden
+}
+.mp-brand-mark svg,.mp-mobile-heading-mark svg{
+  width:24px;height:24px;stroke:#fff;stroke-width:2.2;fill:none;display:block
+}
+/* Artwork stays adjacent to real HTML, never obscures labels or metrics. */
+#main-content .mp-page-heading[data-art]{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(155px,230px);
+  align-items:center;min-height:165px;gap:18px;background:#fff;
+  border:1px solid var(--mp-polish-border);border-radius:16px;
+  padding:20px 22px;overflow:hidden;margin-bottom:12px
+}
+#main-content .mp-page-heading[data-art]::after{
+  content:"";display:block;align-self:stretch;
+  background-image:var(--mp-page-art);background-repeat:no-repeat;
+  background-size:contain;background-position:center;
+  min-height:130px;background-color:var(--mp-polish-art-bg);
+  border-radius:12px;
+}
+#main-content .mp-page-heading[data-art] .mp-page-heading-text{min-width:0}
+#main-content .mp-page-heading[data-art] .mp-page-label{
+  grid-column:1;grid-row:2;justify-self:start;margin:0
+}
+#main-content .mp-page-heading[data-art]::after{grid-column:2;grid-row:1/span 2}
+#main-content .mp-page-heading:not([data-art]){min-height:auto}
+.mp-art-note{font-size:12px;color:#546c79;max-width:70ch;margin:0}
+#main-content .mp-empty-row td{
+  text-align:center!important;padding:24px 12px 30px!important;
+  font-size:14px;color:#425f70
+}
+#main-content .mp-empty-row td::before{
+  content:"";display:block;margin:0 auto 14px;
+  width:min(195px,90%);height:108px;
+  background:var(--mp-empty-art) no-repeat center/contain;
+}
+#main-content .mp-polish-empty{
+  display:grid;justify-items:center;gap:10px;padding:22px;
+  background:#fff;border:1px solid #dee7eb;border-radius:14px;
+  text-align:center;color:#385569;min-height:180px;
+}
+#main-content .mp-polish-empty::before{
+  content:"";width:min(220px,80%);height:115px;
+  background:var(--mp-empty-art) no-repeat center/contain;
+}
+#main-content .mp-polish-empty strong{font-size:15px;color:#193e4d}
+#main-content .mp-polish-empty p{font-size:13px;max-width:40ch;margin:0}
+#main-content .mp-polish-empty button{
+  min-height:44px;border:1px solid #b8d0d0;border-radius:9px;
+  padding:8px 14px;background:#fff;color:#116962;font-weight:750
+}
+@media(max-width:760px){
+  #main-content .mp-page-heading[data-art]{
+    grid-template-columns:minmax(0,1fr) minmax(92px,30%);
+    gap:9px;min-height:125px;padding:14px
+  }
+  #main-content .mp-page-heading[data-art]::after{min-height:100px}
+  #main-content .mp-page-heading[data-art] .mp-page-title{
+    font-size:clamp(19px,5vw,25px)!important;overflow-wrap:anywhere
+  }
+  #main-content .mp-page-heading[data-art] .mp-page-label{font-size:10px}
+}
+@media(max-width:390px){
+  #main-content .mp-page-heading[data-art]{
+    grid-template-columns:minmax(0,1fr) 100px
+  }
+  #main-content .mp-page-heading[data-art]::after{min-height:90px}
+}
+@media(prefers-reduced-data:reduce){
+  #main-content .mp-page-heading[data-art]::after,
+  #main-content .mp-empty-row td::before,
+  #main-content .mp-polish-empty::before{background-image:none!important}
+}
