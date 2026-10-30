@@ -4,6 +4,8 @@
 
 A modernized **frontend demonstration** of healthcare practice operations. Explore patient directories, appointment scheduling, billing and practice analytics using **randomly generated synthetic data**. The project showcases responsive UI architecture, interaction patterns, accessibility work, and operational workflow design.
 
+**Engineering context:** Built by [Tabitha Khadse](https://code.tabitha.dev/). Her [healthcare dashboard design notes](https://code.tabitha.dev/articles/denial-management-dashboards/) explain the revenue-cycle workflows that inform her frontend decisions.
+
 > **Demonstration only.** This static GitHub Pages website is not an EHR, patient portal, clinical system, or real practice-management service. It cannot send booking confirmations, authenticate users, process payments, store medical records, or connect to live EHR systems. Do not enter protected health information (PHI).
 
 ## What you can explore
