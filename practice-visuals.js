@@ -110,13 +110,72 @@
     board.dataset.sampleAppointments=String(appointments.length);
     board.dataset.samplePatients=String(patients.length);
   }
+  function renderBilling(){
+    const main=document.querySelector('#main-content'),data=window.navigation?.mockData;
+    if(!main||!data?.billing)return;
+    const bills=data.billing;
+    const val=i=>Number(String(i.amount||0).replace(/[^0-9.-]/g,''))||0;
+    const subtotal=items=>items.reduce((sum,item)=>sum+val(item),0);
+    const paid=bills.filter(i=>i.status==='Paid');
+    const unpaid=bills.filter(i=>['Pending','Processing','Overdue'].includes(i.status));
+    const processing=bills.filter(i=>i.status==='Processing');
+    const overdue=bills.filter(i=>i.status==='Overdue');
+    const cards=[
+      ['Total Revenue','Paid invoice total',dollars(subtotal(paid)),paid.length+' paid sample invoices'],
+      ['Outstanding','Outstanding',dollars(subtotal(unpaid)),unpaid.length+' unpaid or processing invoices'],
+      ['Insurance Claims','Processing invoices',String(processing.length),'Sample invoices in processing'],
+      ['Overdue','Overdue',dollars(subtotal(overdue)),overdue.length+' overdue sample invoices']
+    ];
+    main.querySelectorAll('.bg-gradient-to-br h3').forEach(h=>{
+      const item=cards.find(a=>a[0]===h.textContent.trim());
+      if(!item)return;
+      const card=h.closest('.bg-gradient-to-br');
+      const metric=card?.querySelector('.text-3xl');
+      const note=metric?.nextElementSibling;
+      h.textContent=item[1];
+      if(metric)metric.textContent=item[2];
+      if(note)note.textContent=item[3];
+    });
+    const search=main.querySelector('input[placeholder="Search invoices..."]');
+    const controls=search?.parentElement;
+    const status=controls?.querySelector('select');
+    const date=controls?.querySelector('input[type=date]');
+    const rows=[...main.querySelectorAll('table tbody tr')];
+    if(!search||!status||!date||!rows.length)return;
+    search.setAttribute('aria-label','Search synthetic invoices by patient, service or invoice ID');
+    status.setAttribute('aria-label','Filter synthetic invoices by status');
+    date.setAttribute('aria-label','Filter synthetic invoices by date');
+    const result=document.createElement('p');
+    result.className='mp-billing-result-count';
+    result.setAttribute('role','status');
+    controls.after(result);
+    const filter=()=>{
+      const query=search.value.trim().toLowerCase();
+      const state=status.value;
+      const targetDate=date.value;
+      let shown=0;
+      rows.forEach((row,i)=>{
+        const bill=bills[i];
+        if(!bill)return;
+        const id='inv-'+String(bill.id).padStart(4,'0');
+        const haystack=[id,bill.patient,bill.service,bill.insurance].join(' ').toLowerCase();
+        const visible=(!query||haystack.includes(query))&&(state==='All Status'||bill.status===state)&&(!targetDate||bill.date===targetDate);
+        row.hidden=!visible;
+        if(visible)shown++;
+      });
+      result.textContent=shown+' of '+bills.length+' synthetic invoices shown';
+    };
+    for(const field of [search,status,date])field.addEventListener(field===search?'input':'change',filter);
+    filter();
+  }
+
   function boot(){
     const nav=window.navigation;
     if(typeof nav?.showPage!=='function'){setTimeout(boot,100);return;}
     if(nav.__mpVisualsInstalled)return;
     nav.__mpVisualsInstalled=true;
     const oldShowPage=nav.showPage.bind(nav);
-    nav.showPage=function(page,...args){const result=oldShowPage(page,...args);if(page==='dashboard')render();return result;};
+    nav.showPage=function(page,...args){const result=oldShowPage(page,...args);if(page==='dashboard')render();if(page==='billing')renderBilling();return result;};
     if(nav.currentPage==='dashboard')render();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
