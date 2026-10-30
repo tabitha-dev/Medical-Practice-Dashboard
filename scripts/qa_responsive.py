@@ -96,6 +96,12 @@ async def main():
       assert await page.locator("#dashboard-page .mp-line-svg").is_visible(),(label,"appointment line chart missing")
       assert await page.locator("#dashboard-page .mp-donut-svg").is_visible(),(label,"patient status donut missing")
       assert await page.locator("#dashboard-page .mp-metric").count()==4,(label,"KPI grid missing")
+      assert await page.locator("#main-content h3",has_text="Recent Activity").count()==0,(label,"duplicate legacy dashboard card")
+      chart_colors=await page.evaluate("""() => [...document.querySelectorAll('.mp-status-list li small')].map(x=>Number(x.textContent.replace(/[^0-9.]/g,'')))""")
+      assert abs(sum(chart_colors)-100)<=0.11,(label,"patient status percentages inconsistent",chart_colors)
+      if width<768:
+        mobile_order=await page.evaluate("""() => [...document.querySelector('#main-content').children].slice(0,3).map(x=>x.className)""")
+        assert mobile_order==["mp-mobile-heading","mp-demo-banner","mp-hero"],(label,"mobile page hierarchy wrong",mobile_order)
       chart_stats=await page.evaluate("""() => {
         const d=window.navigation.mockData;
         const b=document.querySelector('#dashboard-page');
