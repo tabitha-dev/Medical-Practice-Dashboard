@@ -93,6 +93,17 @@
       heading.dataset.art=page;
       setArt(heading,arts[page]);
     }
+    if(page==='booking'){
+      document.querySelectorAll('#main-content [data-icon="CaretLeft"],#main-content [data-icon="CaretRight"]').forEach(node=>{
+        const button=node.closest('button');
+        if(!button||button.dataset.mpPolished)return;
+        const forward=node.dataset.icon==='CaretRight';
+        button.setAttribute('aria-label',forward?'Next month preview':'Previous month preview');
+        button.setAttribute('title',forward?'Next month preview':'Previous month preview');
+        button.addEventListener('click',()=>window.showCustomAlert?.('Calendar navigation in this portfolio demo does not create or modify an appointment.'));
+        button.dataset.mpPolished='true';
+      });
+    }
     if(page==='dashboard')reportArt();
     if(page==='patients')patientEmpty();
     if(page==='billing')billingEmpty();
