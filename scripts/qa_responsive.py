@@ -83,6 +83,16 @@ async def main():
       else:
         await page.locator("#mp-sidebar [onclick*=\"'dashboard'\"]").first.click()
       await page.locator("#mp-hero-title").wait_for()
+      scroll_layout=await page.evaluate("""() => {
+        const outer=document.querySelector('body>div.relative.flex.size-full');
+        const last=document.querySelector('.mp-visits-card');
+        const workspace=document.querySelector('#mp-workspace');
+        const outerRect=outer.getBoundingClientRect(),lastRect=last.getBoundingClientRect(),workspaceRect=workspace.getBoundingClientRect();
+        return {overflowY:getComputedStyle(outer).overflowY,workspaceBottom:workspaceRect.bottom,lastBottom:lastRect.bottom,outerBottom:outerRect.bottom};
+      }""")
+      assert scroll_layout["overflowY"]=="visible",(label,"dashboard nested scroll still clipping",scroll_layout)
+      assert scroll_layout["workspaceBottom"]>=scroll_layout["lastBottom"]-3,(label,"lower dashboard clipped",scroll_layout)
+      assert await page.locator(".mp-visits-card").count()==1,(label,"upcoming visits panel missing")
       assert await page.locator("#dashboard-page .mp-line-svg").is_visible(),(label,"appointment line chart missing")
       assert await page.locator("#dashboard-page .mp-donut-svg").is_visible(),(label,"patient status donut missing")
       assert await page.locator("#dashboard-page .mp-metric").count()==4,(label,"KPI grid missing")
