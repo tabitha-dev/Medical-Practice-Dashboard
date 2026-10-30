@@ -95,3 +95,9 @@ body,#main-content{background:var(--mp-canvas)!important}
 @media(prefers-reduced-motion:reduce){
  #dashboard-page *,#dashboard-page *::before,#dashboard-page *::after{animation:none!important;transition:none!important}
 }
+/* Maintain accessible alert text on plain billing and practice cards. */
+#main-content p.text-red-600{color:#8e2436!important}
+#main-content p.text-yellow-600{color:#815300!important}
+#main-content p.text-green-600{color:#176542!important}
+.mp-billing-result-count{font-size:12px;color:#385c6a;font-weight:700;padding:12px 17px;margin:0;border-bottom:1px solid #e2eaee}
+#main-content table tbody tr[hidden]{display:none!important}
