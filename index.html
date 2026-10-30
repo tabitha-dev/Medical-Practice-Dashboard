@@ -17,15 +17,19 @@
   <meta property="og:title" content="Medical Practice Dashboard | Healthcare Operations UI">
   <meta property="og:description" content="An interactive, responsive healthcare practice management demonstration featuring synthetic patient records, schedules, and revenue analytics.">
   <meta property="og:url" content="https://tabitha-dev.github.io/Medical-Practice-Dashboard/">
-  <meta property="og:image" content="https://tabitha-dev.github.io/Medical-Practice-Dashboard/social-preview.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="MedOps medical practice dashboard UI with illustrative operational charts and sample-data label.">
+  <meta property="og:image" content="https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/file_1793325784638_ce2804eb">
+  <meta property="og:image:width" content="1344">
+  <meta property="og:image:height" content="768">
+  <meta property="og:image:alt" content="MedOps Practice Studio custom illustration representing synthetic healthcare administration and scheduling workflows.">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://cdn.openart.ai/openart-ai/production/2026-10/create-image/HOjo8ynMh9nVC5lV2qAW/file_1793325784638_ce2804eb">
+  <meta name="twitter:image:alt" content="Illustrated MedOps Practice Studio healthcare operations demonstration.">
+  <link rel="preconnect" href="https://cdn.openart.ai" crossorigin>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Medical Practice Dashboard","url":"https://tabitha-dev.github.io/Medical-Practice-Dashboard/","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"description":"An interactive frontend demonstration of healthcare practice management, appointment scheduling, synthetic patient records, billing workflows and practice analytics. Not a production EHR or billing service.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Practice overview","Synthetic patient list","Illustrative appointment scheduling","Demo billing and payments","Practice analytics visualizations"]}</script>
   <link rel="stylesheet" href="./practice-theme.css" />
   <link rel="stylesheet" href="./practice-visuals.css" />
+  <link rel="stylesheet" href="./practice-polish.css" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <style>
@@ -1641,25 +1645,25 @@ Healthcare City, HC 12345</textarea>
                           />
                         </label>
                       </div>
-                      <h3 class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Visit Type</h3>
+                      <h3 id="mp-visit-type-heading" class="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Visit Type</h3>
                       <div class="p-4">
-                        <div class="flex flex-col gap-3">
+                        <div class="flex flex-col gap-3" role="radiogroup" aria-labelledby="mp-visit-type-heading">
                           <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
-                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" value="General Consultation" />
                             <div class="flex grow cursor-pointer flex-col">
                               <p class="text-[#121516] text-sm font-medium leading-normal">General Consultation</p>
                               <p class="text-[#6a7881] text-sm font-normal leading-normal">Routine health checkup and basic medical consultation</p>
                             </div>
                           </label>
                           <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
-                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" value="Follow-up Appointment" />
                             <div class="flex grow cursor-pointer flex-col">
                               <p class="text-[#121516] text-sm font-medium leading-normal">Follow-up Appointment</p>
                               <p class="text-[#6a7881] text-sm font-normal leading-normal">Follow-up on previous treatment or ongoing care</p>
                             </div>
                           </label>
                           <label class="flex cursor-pointer items-center gap-4 rounded-xl border border-solid border-[#dce1e5] p-[15px]">
-                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" />
+                            <input type="radio" class="h-5 w-5 border-2 border-[#dce1e5] bg-transparent text-transparent checked:border-[#121516] checked:bg-[#121516] focus:outline-none focus:ring-0 focus:ring-offset-0 checked:focus:border-[#121516] checked:focus:bg-[#121516]" name="visitType" value="Specialist Referral" />
                             <div class="flex grow cursor-pointer flex-col">
                               <p class="text-[#121516] text-sm font-medium leading-normal">Specialist Referral</p>
                               <p class="text-[#6a7881] text-sm font-normal leading-normal">Consultation with a medical specialist</p>
@@ -2411,6 +2415,7 @@ Healthcare City, HC 12345</textarea>
   </script>
   <script src="./practice-enhancements.js"></script>
   <script src="./practice-visuals.js"></script>
+  <script src="./practice-polish.js"></script>
 </body>
 
 </html>

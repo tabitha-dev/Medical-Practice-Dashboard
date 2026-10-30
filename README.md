@@ -37,6 +37,14 @@ The overview KPIs now reflect actual synthetic arrays in the running session. Bi
 
 Charts include inline labels, accessible SVG descriptions, keyboard-scrollable narrow views and a weekly-count data table. The chart system is local HTML, CSS and JavaScript, with no additional charting dependency. Any OpenArt illustration exploration is separate from numerical graphics; generated imagery must never represent measured practice performance.
 
+## Original artwork, icons and controls
+
+The design includes a commissioned OpenArt illustration collection: the dashboard hero, patient directory, appointments and booking, billing, analytics, a shared empty state and a branded social card. The illustrations are **decorative supporting artwork only**. Their SVG and raster assets are currently served from OpenArt's CDN; if that external service becomes unavailable, the static CSS presents a neutral solid-color fallback. A reduced-data preference also suppresses nonessential illustrations.
+
+Iconography is a consistent set of locally defined, stroke-based SVG symbols for sidebar and mobile navigation. The original mismatched text glyphs were removed. Booking radio controls are fixed at a true 22 × 22 pixel circle, with meaningful labels, a grouped accessible name, visible checked and unchecked states, and keyboard focus support. Patient and billing empty states have explanatory text without relying on images.
+
+No AI-generated graphic conveys actual practice performance. Charts remain coded from synthetic in-memory data, with direct labels and a data table. Artwork is never a substitute for alt text, form labels, headings or operational disclosures.
+
 ## Technology
 
 - HTML5, CSS and vanilla JavaScript
