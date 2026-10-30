@@ -67,10 +67,8 @@
     banner.append(strong,msg,link);main.prepend(banner);
     if(page==='dashboard'){
       const hero=document.createElement('section');hero.className='mp-hero';hero.setAttribute('aria-labelledby','mp-hero-title');
-      hero.innerHTML=`<div class="mp-hero-copy"><span class="mp-hero-eyebrow">A CLEARER VIEW OF PRACTICE OPERATIONS</span><h1 id="mp-hero-title">Everything that matters, <em>in one view.</em></h1><p>Explore a thoughtfully designed operations dashboard for patient flow, scheduling and billing—with realistic interaction patterns and synthetic examples.</p><div class="mp-hero-pills"><span>✚ Patient operations</span><span>▦ Scheduling</span><span>◴ Analytics</span></div></div><div class="mp-hero-art" aria-hidden="true"><span class="mp-hero-glow"></span><span class="mp-hero-panel"></span><span class="mp-hero-circle one">✚</span><span class="mp-hero-circle two">▥</span><span class="mp-hero-tag">↗ Practice insights</span></div>`;
+      hero.innerHTML=`<div class="mp-hero-copy"><span class="mp-hero-eyebrow">INTERACTIVE PRACTICE OPERATIONS DEMO</span><h1 id="mp-hero-title">A clearer view of your practice.</h1><p>Explore patient operations, scheduling and billing through a professional workflow built with generated sample records. Nothing on this site connects to real clinical systems.</p></div>`
       banner.after(hero);
-      const title=main.querySelector('#dashboard-page .text-\\[32px\\]');
-      // Preserve the legacy dashboard KPI header and actions below the hero.
     } else {
       const bar=document.createElement('div');bar.className='mp-page-heading';
       const heading=document.createElement('div');heading.className='mp-page-heading-text';
