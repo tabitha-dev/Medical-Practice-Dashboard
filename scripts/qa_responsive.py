@@ -25,6 +25,12 @@ async def main():
         await page.screenshot(path=str(OUT/("render-blocked-"+label+".png")))
         raise
       assert await page.locator(".mp-demo-banner").count()==1,(label,"demo notice")
+      assert await page.locator('#mp-sidebar [data-icon] svg.mp-polish-icon').count()>=6,(label,"sidebar icons not unified")
+      if width<768:
+        assert await page.locator('#mp-mobile-nav .mp-polish-icon').count()==5,(label,"mobile icons not unified")
+      assert await page.locator('link[rel="canonical"]').get_attribute('href')=="https://tabitha-dev.github.io/Medical-Practice-Dashboard/",(label,"canonical SEO")
+      assert await page.locator('meta[property="og:image"]').count()==1,(label,"missing social preview")
+      assert await page.locator('script[type="application/ld+json"]').count()>=1,(label,"AEO structured data missing")
       metrics=await page.evaluate("""() => ({viewport:innerWidth,root:document.documentElement.scrollWidth,body:document.body.scrollWidth,hero:document.querySelector('.mp-hero').getBoundingClientRect().width,css:!![...document.styleSheets].find(s=>s.href?.includes('practice-theme.css'))})""")
       assert metrics["root"]<=width+2,(label,"horizontal overflow",metrics)
       assert metrics["hero"]>230,(label,"hero too small",metrics)
@@ -41,6 +47,7 @@ async def main():
       assert page.url.endswith("#patients"),(label,"patient route not shareable",page.url)
       await page.locator("#patientSearchInput").fill("zzzz-no-such-patient")
       await page.locator("#patientSearchInput").press("Tab")
+      assert await page.locator("#main-content .mp-empty-row").count()==1,(label,"illustrated patient empty state not available")
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="appointments"]').click()
       else:
@@ -68,8 +75,10 @@ async def main():
       invoice_search=page.locator('input[placeholder="Search invoices..."]')
       await invoice_search.fill("zzzz-no-such-invoice")
       assert (await page.locator(".mp-billing-result-count").inner_text()).startswith("0 of "),(label,"billing search filter failed")
+      assert await page.locator("#mp-billing-empty").is_visible(),(label,"billing empty state not visible")
       await invoice_search.fill("")
       assert (await page.locator(".mp-billing-result-count").inner_text()).startswith("300 of "),(label,"billing reset failed")
+      assert await page.locator("#mp-billing-empty").is_hidden(),(label,"billing empty state remained after filter reset")
       if width<768:
         await page.locator("#mp-more-btn").click()
         assert await page.locator("#mp-mobile-more").is_visible(),(label,"mobile More hidden")
@@ -78,6 +87,13 @@ async def main():
         await page.locator("#mp-sidebar [onclick*=\"'booking'\"]").first.click()
       assert "Book" in await page.locator("#main-content").inner_text(),(label,"booking")
       assert await page.locator(".mp-page-heading h1").inner_text()=="Booking preview",(label,"booking heading")
+      radios=page.locator('#main-content input[type="radio"]')
+      assert await radios.count()>=3,(label,"visit choice circles not found")
+      geom=await radios.first.evaluate("""el => ({w:el.getBoundingClientRect().width,h:el.getBoundingClientRect().height,ratio:getComputedStyle(el).aspectRatio,shrink:getComputedStyle(el).flexShrink,radius:getComputedStyle(el).borderRadius})""")
+      assert abs(geom["w"]-geom["h"])<0.2 and geom["w"]>=20,(label,"radio oval geometry regression",geom)
+      assert geom["shrink"]=="0",(label,"radio flex collapse",geom)
+      await radios.first.check()
+      assert await radios.first.is_checked(),(label,"radio selection broken")
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="dashboard"]').click()
       else:
