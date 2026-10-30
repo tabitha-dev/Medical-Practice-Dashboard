@@ -37,6 +37,8 @@ async def main():
         await page.locator("#mp-sidebar [onclick*=\"'patients'\"]").first.click()
       await page.locator("#main-content").get_by_text("Patients",exact=False).first.wait_for()
       assert await page.locator("#patientSearchInput").is_visible(),(label,"patient search missing")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Patient directory",(label,"missing semantic heading")
+      assert page.url.endswith("#patients"),(label,"patient route not shareable",page.url)
       await page.locator("#patientSearchInput").fill("zzzz-no-such-patient")
       await page.locator("#patientSearchInput").press("Tab")
       if width<768:
@@ -44,11 +46,30 @@ async def main():
       else:
         await page.locator("#mp-sidebar [onclick*=\"'appointments'\"]").first.click()
       assert await page.locator("#appointments-dynamic-content").count()==1,(label,"appointments view")
+      assert page.url.endswith("#appointments"),(label,"appointments hash",page.url)
+      await page.go_back()
+      await page.wait_for_function("window.navigation.currentPage==='patients'")
+      assert await page.locator("#patientSearchInput").is_visible(),(label,"back navigation")
+      await page.go_forward()
+      await page.wait_for_function("window.navigation.currentPage==='appointments'")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Appointments",(label,"appointments heading")
+      await page.evaluate("() => {window.__testAppointments=window.navigation.mockData.appointments;window.navigation.mockData.appointments=[];window.navigation.renderAppointmentsView('daily')}")
+      await page.locator('#appointments-dynamic-content button[onclick^="editAppointment"]').first.click()
+      assert await page.locator("#mp-accessible-notice").is_visible(),(label,"fallback appointment action failed")
+      await page.locator("#mp-accessible-notice button").click()
+      await page.evaluate("() => {window.navigation.mockData.appointments=window.__testAppointments}")
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="billing"]').click()
       else:
         await page.locator("#mp-sidebar [onclick*=\"'billing'\"]").first.click()
       assert "Billing" in await page.locator("#main-content").inner_text(),(label,"billing view")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Billing & collections",(label,"billing heading")
+      assert await page.locator(".mp-billing-result-count").is_visible(),(label,"billing filters not active")
+      invoice_search=page.locator('input[placeholder="Search invoices..."]')
+      await invoice_search.fill("zzzz-no-such-invoice")
+      assert (await page.locator(".mp-billing-result-count").inner_text()).startswith("0 of "),(label,"billing search filter failed")
+      await invoice_search.fill("")
+      assert (await page.locator(".mp-billing-result-count").inner_text()).startswith("300 of "),(label,"billing reset failed")
       if width<768:
         await page.locator("#mp-more-btn").click()
         assert await page.locator("#mp-mobile-more").is_visible(),(label,"mobile More hidden")
@@ -56,16 +77,46 @@ async def main():
       else:
         await page.locator("#mp-sidebar [onclick*=\"'booking'\"]").first.click()
       assert "Book" in await page.locator("#main-content").inner_text(),(label,"booking")
+      assert await page.locator(".mp-page-heading h1").inner_text()=="Booking preview",(label,"booking heading")
       if width<768:
         await page.locator('#mp-mobile-nav button[data-page="dashboard"]').click()
       else:
         await page.locator("#mp-sidebar [onclick*=\"'dashboard'\"]").first.click()
       await page.locator("#mp-hero-title").wait_for()
+      scroll_layout=await page.evaluate("""() => {
+        const outer=document.querySelector('body>div.relative.flex.size-full');
+        const last=document.querySelector('.mp-visits-card');
+        const workspace=document.querySelector('#mp-workspace');
+        const outerRect=outer.getBoundingClientRect(),lastRect=last.getBoundingClientRect(),workspaceRect=workspace.getBoundingClientRect();
+        return {overflowY:getComputedStyle(outer).overflowY,workspaceBottom:workspaceRect.bottom,lastBottom:lastRect.bottom,outerBottom:outerRect.bottom};
+      }""")
+      assert scroll_layout["overflowY"]=="visible",(label,"dashboard nested scroll still clipping",scroll_layout)
+      assert scroll_layout["workspaceBottom"]>=scroll_layout["lastBottom"]-3,(label,"lower dashboard clipped",scroll_layout)
+      assert await page.locator(".mp-visits-card").count()==1,(label,"upcoming visits panel missing")
+      assert await page.locator("#dashboard-page .mp-line-svg").is_visible(),(label,"appointment line chart missing")
+      assert await page.locator("#dashboard-page .mp-donut-svg").is_visible(),(label,"patient status donut missing")
+      assert await page.locator("#dashboard-page .mp-metric").count()==4,(label,"KPI grid missing")
+      assert await page.locator("#main-content h3",has_text="Recent Activity").count()==0,(label,"duplicate legacy dashboard card")
+      chart_colors=await page.evaluate("""() => [...document.querySelectorAll('.mp-status-list li small')].map(x=>Number(x.textContent.replace(/[^0-9.]/g,'')))""")
+      assert abs(sum(chart_colors)-100)<=0.11,(label,"patient status percentages inconsistent",chart_colors)
+      if width<768:
+        mobile_order=await page.evaluate("""() => [...document.querySelector('#main-content').children].slice(0,3).map(x=>x.className)""")
+        assert mobile_order==["mp-mobile-heading","mp-demo-banner","mp-hero"],(label,"mobile page hierarchy wrong",mobile_order)
+      chart_stats=await page.evaluate("""() => {
+        const d=window.navigation.mockData;
+        const b=document.querySelector('#dashboard-page');
+        return {appointments:d.appointments.length,patients:d.patients.length,renderedAppointments:Number(b.dataset.sampleAppointments),renderedPatients:Number(b.dataset.samplePatients),svgDescription:document.querySelector('#mp-trend-svg-desc')?.textContent||''};
+      }""")
+      assert chart_stats["appointments"]==chart_stats["renderedAppointments"],(label,"appointments KPI mismatch",chart_stats)
+      assert chart_stats["patients"]==chart_stats["renderedPatients"],(label,"patient KPI mismatch",chart_stats)
+      assert "synthetic" in chart_stats["svgDescription"].lower(),(label,"chart disclosure missing")
+      assert await page.locator("#dashboard-page .bg-gradient-to-br").count()==0,(label,"old gradient dashboard still present")
       # Data must remain labeled synthetic, not claim real records.
       assert "Synthetic" in await page.locator(".mp-demo-banner").inner_text()
       if label in ("desktop","phone","small-phone"):
         await page.evaluate("window.scrollTo(0,0)")
         await page.screenshot(path=str(OUT/(label+"-dashboard.png")),full_page=False)
+        await page.screenshot(path=str(OUT/(label+"-dashboard-full.png")),full_page=True)
       if label=="phone":
         await page.locator('#mp-mobile-nav button[data-page="patients"]').click()
         await page.screenshot(path=str(OUT/"phone-patients.png"),full_page=False)

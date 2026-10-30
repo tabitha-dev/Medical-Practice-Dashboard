@@ -25,6 +25,7 @@
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Medical Practice Dashboard","url":"https://tabitha-dev.github.io/Medical-Practice-Dashboard/","applicationCategory":"BusinessApplication","operatingSystem":"Any","isAccessibleForFree":true,"description":"An interactive frontend demonstration of healthcare practice management, appointment scheduling, synthetic patient records, billing workflows and practice analytics. Not a production EHR or billing service.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Practice overview","Synthetic patient list","Illustrative appointment scheduling","Demo billing and payments","Practice analytics visualizations"]}</script>
   <link rel="stylesheet" href="./practice-theme.css" />
+  <link rel="stylesheet" href="./practice-visuals.css" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <style>
@@ -240,6 +241,14 @@
       return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     }
 
+    // Format synthetic dates in the viewer's local timezone, avoiding UTC day shifts.
+    function formatLocalDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     // script.js (combined for single immersive)
     class MedicalAppNavigation {
       constructor() {
@@ -294,14 +303,14 @@
           const status = statuses[Math.floor(Math.random() * statuses.length)];
           const insurance = insurances[Math.floor(Math.random() * insurances.length)];
           const lastVisitDate = getRandomDate(new Date(2023, 0, 1), new Date()); // Use global getRandomDate
-          const nextAppointmentDate = status === 'Active' && Math.random() > 0.3 ? getRandomDate(new Date(), new Date(Date.now() + 180*86400000)).toISOString().split('T')[0] : null; // Use global getRandomDate
+          const nextAppointmentDate = status === 'Active' && Math.random() > 0.3 ? formatLocalDate(getRandomDate(new Date(), new Date(Date.now() + 180*86400000))) : null; // Use global getRandomDate
 
           return {
             id: i + 1,
             name: `${firstName} ${lastName}`,
             email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}${i}@example.com`,
             phone: `(555) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
-            lastVisit: lastVisitDate.toISOString().split('T')[0],
+            lastVisit: formatLocalDate(lastVisitDate),
             nextAppointment: nextAppointmentDate,
             status: status,
             insurance: insurance,
@@ -318,14 +327,19 @@
           const durations = ['15 min', '30 min', '45 min', '60 min'];
 
           const appointmentDate = getRandomDate(new Date(Date.now()-90*86400000), new Date(Date.now()+90*86400000)); // Use global getRandomDate
-          const status = statuses[Math.floor(Math.random() * statuses.length)];
+          const isPast = formatLocalDate(appointmentDate) < formatLocalDate(new Date());
+          const statusPool = isPast ? ['Completed','Completed','Completed','Completed','No-Show','Cancelled','Rescheduled'] : ['Scheduled','Scheduled','Scheduled','Scheduled','Scheduled','Rescheduled','Cancelled'];
+          const status = statusPool[Math.floor(Math.random() * statusPool.length)];
+          const hour24 = 8 + Math.floor(Math.random() * 9);
+          const minute = ['00','15','30','45'][Math.floor(Math.random() * 4)];
+          const timeLabel = `${hour24 % 12 || 12}:${minute} ${hour24 < 12 ? 'AM' : 'PM'}`;
 
           return {
             id: i + 1,
             patient: randomPatient.name, // Use the name of the random patient
             doctor: doctors[Math.floor(Math.random() * doctors.length)],
-            date: appointmentDate.toISOString().split('T')[0],
-            time: `${Math.floor(Math.random() * 10) + 8}:00 ${Math.random() > 0.5 ? 'AM' : 'PM'}`,
+            date: formatLocalDate(appointmentDate),
+            time: timeLabel,
             type: types[Math.floor(Math.random() * types.length)],
             status: status,
             duration: durations[Math.floor(Math.random() * durations.length)]
@@ -346,7 +360,7 @@
             id: i + 1,
             patient: randomPatient.name, // Use the name of the random patient
             service: services[Math.floor(Math.random() * services.length)],
-            date: billDate.toISOString().split('T')[0],
+            date: formatLocalDate(billDate),
             amount: `$${amount}`,
             status: statuses[Math.floor(Math.random() * statuses.length)],
             insurance: insurances[Math.floor(Math.random() * insurances.length)],
@@ -687,7 +701,7 @@
         if (!appointmentsDynamicContent) return; // Exit if element not found
 
         const today = new Date();
-        const todayFormatted = today.toISOString().split('T')[0];
+        const todayFormatted = formatLocalDate(today);
 
         // Ensure there's always some data for today if the mock data doesn't provide it
         let dailyAppointments = this.mockData.appointments.filter(apt => apt.date === todayFormatted);
@@ -701,7 +715,7 @@
           for (let i = 0; i < 3; i++) {
             const randomPatient = patients[Math.floor(Math.random() * patients.length)];
             dailyAppointments.push({
-              id: `mock-${i}`,
+              id: -1000 - i,
               patient: randomPatient.name,
               doctor: doctors[Math.floor(Math.random() * doctors.length)],
               date: todayFormatted,
@@ -767,7 +781,7 @@
           for (let i = 0; i < 7; i++) {
             const currentDay = new Date(startOfWeek);
             currentDay.setDate(startOfWeek.getDate() + i);
-            const currentDayFormatted = currentDay.toISOString().split('T')[0];
+            const currentDayFormatted = formatLocalDate(currentDay);
             let appointmentsForDay = this.mockData.appointments.filter(apt => apt.date === currentDayFormatted);
 
             // Add mock data if no appointments exist for the day
@@ -831,7 +845,7 @@
           }
 
           for (let day = 1; day <= daysInMonth; day++) {
-            const currentCalendarDate = new Date(year, month, day).toISOString().split('T')[0];
+            const currentCalendarDate = formatLocalDate(new Date(year, month, day));
             const appointmentsForDay = this.mockData.appointments.filter(apt => apt.date === currentCalendarDate);
             const hasAppointments = appointmentsForDay.length > 0;
             const dayBgClass = hasAppointments ? 'bg-blue-50 border-blue-200' : 'bg-white';
@@ -891,7 +905,7 @@
                   <div class="flex flex-wrap justify-between gap-3 p-4">
                     <div class="flex min-w-72 flex-col gap-3">
                       <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Patient Management</p>
-                      <p class="text-[#637988] text-sm font-normal leading-normal">Comprehensive patient database with medical records, appointment history, and contact information.</p>
+                      <p class="text-[#637988] text-sm font-normal leading-normal">Browse and filter randomly generated sample patient profiles. This demo has no real database or medical records.</p>
                     </div>
                     <div class="flex gap-3">
                       <button class="btn-success" onclick="addNewPatient()">Add New Patient</button>
@@ -1041,7 +1055,7 @@
                   <div class="flex flex-wrap justify-between gap-3 p-4">
                     <div class="flex min-w-72 flex-col gap-3">
                       <p class="text-[#111518] tracking-light text-[32px] font-bold leading-tight">Billing & Payment Management</p>
-                      <p class="text-[#637988] text-sm font-normal leading-normal">Comprehensive billing system for invoices, payments, insurance claims, and financial reporting.</p>
+                      <p class="text-[#637988] text-sm font-normal leading-normal">Explore sample invoices, illustrative financial metrics and billing workflows. No actual payments or claims are processed.</p>
                     </div>
                     <div class="flex gap-3">
                       <button class="btn-success" onclick="createInvoice()">Create Invoice</button>
@@ -1468,7 +1482,7 @@ Healthcare City, HC 12345</textarea>
       getSecuritySettingsContent = () => { // Converted to arrow function
         return `
                 <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <h3 class="text-xl font-bold text-gray-800 mb-6">Security Settings</h3>
+                  <h3 class="text-xl font-bold text-gray-800 mb-2">Security Settings</h3><p class="text-sm text-gray-600 mb-6">Demo controls only. Do not enter real passwords or security credentials. No settings or 2FA configurations are saved.</p>
                   <div class="space-y-6">
                     <div>
                       <h4 class="font-semibold text-gray-800 mb-3">Change Password</h4>
@@ -1537,19 +1551,19 @@ Healthcare City, HC 12345</textarea>
                   <div class="space-y-4">
                     <div class="border-b border-gray-200 pb-4">
                       <h4 class="font-semibold text-gray-800 mb-2">How do I book a new appointment?</h4>
-                      <p class="text-sm text-gray-600">Navigate to the "Book Appointment" section from the sidebar. Fill in the patient details, select the visit type, choose a date from the calendar, and pick an available time slot. Finally, click "Confirm Appointment".</p>
+                      <p class="text-sm text-gray-600">Open the booking preview from the sidebar or mobile More menu. Use invented sample details to explore the controls. Confirm Appointment only displays a demo notice and does not book an appointment.</p>
                     </div>
                     <div class="border-b border-gray-200 pb-4">
                       <h4 class="font-semibold text-gray-800 mb-2">Can I modify an existing appointment?</h4>
-                      <p class="text-sm text-gray-600">Yes, go to the "Appointments" page. You will see a list of all appointments. Use the "Edit" button next to the desired appointment to make changes.</p>
+                      <p class="text-sm text-gray-600">The Appointments page includes example actions such as Edit and Check In. They show a demonstration notice; the original synthetic records are not changed or saved.</p>
                     </div>
                     <div class="border-b border-gray-200 pb-4">
                       <h4 class="font-semibold text-gray-800 mb-2">How do I add a new patient?</h4>
-                      <p class="text-sm text-gray-600">In the "Patients" section, click on the "Add New Patient" button. A form will appear where you can enter all the necessary patient information.</p>
+                      <p class="text-sm text-gray-600">In Patients, Add New Patient previews a possible workflow. It does not open a patient-creation form or store a record. Never enter real patient information.</p>
                     </div>
                     <div class="border-b border-gray-200 pb-4">
                       <h4 class="font-semibold text-gray-800">Where can I view billing statements?</h4>
-                      <p class="text-sm text-gray-600">All billing and payment information can be found under the "Billing" section. You can search for invoices, view their status, and record payments.</p>
+                      <p class="text-sm text-gray-600">The Billing section presents synthetic invoices and illustrative payment actions. No payment can be collected, recorded or sent from this website.</p>
                     </div>
                   </div>
                 </div>
@@ -1564,7 +1578,7 @@ Healthcare City, HC 12345</textarea>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow duration-200 cursor-pointer">
                       <h4 class="font-semibold text-blue-700 mb-2">Advanced Analytics Deep Dive</h4>
-                      <p class="text-sm text-gray-600">Learn how to leverage AI-powered analytics for optimizing your practice's performance.</p>
+                      <p class="text-sm text-gray-600">Explore illustrative operational trends and sample analytics. These are not AI-generated clinical recommendations.</p>
                       <button class="text-blue-600 text-sm mt-2" onclick="viewGuide('analytics-deep-dive')">Read Guide &rarr;</button>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow duration-200 cursor-pointer">
@@ -1596,7 +1610,7 @@ Healthcare City, HC 12345</textarea>
                         <div class="flex min-w-72 flex-col gap-3">
                           <p class="text-[#121516] tracking-light text-[32px] font-bold leading-tight">Book Appointment</p>
                           <p class="text-[#6a7881] text-base font-normal leading-normal">
-                            Schedule your appointment with our AI-optimized system. Get personalized recommendations for the best time slots and doctors.
+                            Try a simulated appointment booking flow with sample visit types and time slots. No booking is created or sent.
                           </p>
                         </div>
                       </div>
@@ -2199,13 +2213,13 @@ Healthcare City, HC 12345</textarea>
       getRandomRecentDate = () => { // Converted to arrow function
         const now = new Date();
         const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
-        return getRandomDate(thirtyDaysAgo, now).toISOString().split('T')[0];
+        return formatLocalDate(getRandomDate(thirtyDaysAgo, now));
       }
 
       getRandomUpcomingDate = () => { // Converted to arrow function
         const now = new Date();
         const futureDate = new Date(now.getTime() + (Math.random() * 30 * 24 * 60 * 60 * 1000));
-        return futureDate.toISOString().split('T')[0];
+        return formatLocalDate(futureDate);
       }
 
       getRandomBirthDate = (age) => { // Converted to arrow function
@@ -2396,6 +2410,7 @@ Healthcare City, HC 12345</textarea>
     });
   </script>
   <script src="./practice-enhancements.js"></script>
+  <script src="./practice-visuals.js"></script>
 </body>
 
 </html>
